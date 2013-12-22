@@ -9,9 +9,8 @@
 #import "Territory.h"
 
 @interface Territory()
--(id)initWithCoords:(float)lat :(float)lng :(float) width;
 -(id)initWithParams:(NSMutableDictionary *)params;
-
+-(id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId;
 
 @end
 
@@ -41,36 +40,32 @@
 }
 
 
--(id)initWithCoords:(float)lat :(float)lng :(float) width
-{
+-(id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString *)userId{
     self = [super init];
     if (self)
     {
         _latitude = lat;
         _longitude = lng;
         _size = width;
+        _revenue = revenue;
+        _ownerID = userId;
+        _isAllied = isAllied;
         
         int sign = (_latitude >= 0) ? 1 : -1;
-        _latTop = round((_latitude + _size - fmod(_latitude,_size) * sign) / _latitude) * _size;
+        _latTop = round((_latitude + _size - fmod(_latitude,_size) * sign) / _size) * _size;
         
         sign = (_longitude >= 0) ? 1 : -1;
         _lngLeft = round((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;
+        
+        _isAllied = 1;
         
     }
     return self;
 }
 
-- (float)isInBounds: (float)lat: (float)lng
+- (float)isInBounds:(float)lat : (float)lng
 {
-    int sign = (_latitude >= 0) ? 1 : -1;
-    if( lat > (_latTop - _size)*sign && lat < (_latTop)*sign)
-    {
-        if( lng > (_lngLeft-_size) * sign && lng < (_lngLeft)*sign)
-        {
-            return true;
-        }
-    }
-    return false;
+    return (lat < _latitude + _size && lat > _latitude && lng > _longitude && lng < _longitude + _size);
 }
 
 

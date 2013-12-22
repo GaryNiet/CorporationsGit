@@ -10,6 +10,11 @@
 
 @interface HalfViewController ()
 
+- (void)setRevenue:(int)revenue;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+
 @end
 
 @implementation HalfViewController
@@ -35,6 +40,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)setRevenue:(int)revenue
+{
+    self.priceLabel.text = [NSString stringWithFormat:@"%d",revenue];
 }
 
 @end

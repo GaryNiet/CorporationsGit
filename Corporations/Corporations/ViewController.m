@@ -64,27 +64,25 @@
                 [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude + _squareSize, territory.longitude)];
                 [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude, territory.longitude)];
                 
-                [self.rectTab addObject:rect];
+                GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
+                polygon.tappable = false;
+                if(territory.isAllied == true)
+                {
+                polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                }
+                else
+                {
+                    polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                }
+                polygon.strokeColor = [UIColor blackColor];
+                polygon.strokeWidth = 2;
+                polygon.map = mapView_;
+                
             }
         }
 
     }
 
-
-    
-    
-    
-    for(GMSMutablePath *rect in _rectTab)
-    {
-        
-        // Create the polygon, and assign it to the map.
-        GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
-        polygon.tappable = false;
-        polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
-        polygon.strokeColor = [UIColor blackColor];
-        polygon.strokeWidth = 2;
-        polygon.map = mapView_;
-    }
 }
 
 - (void)loadView {
@@ -202,6 +200,8 @@
 - (void) mapView: (GMSMapView *) mapView  didTapOverlay: (GMSPolygon *) overlay
 {
     
+    
+    
     if(self.isJustMap == true)
     {
         
@@ -224,41 +224,23 @@
 
 - (void) mapView: (GMSMapView *) mapView  didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    //NSLog(@"latitude: %f", coordinate.latitude);
-    //NSLog(@"longitude: %f", coordinate.longitude);
+    NSLog(@"latitude: %f", coordinate.latitude);
+    NSLog(@"longitude: %f", coordinate.longitude);
     
     
     //NSDictionary *result = (NSDictionary*)[_terri objectForKey:@"results"];
     
-//    for(id key in result)
-//    {
-//        NSString *latValueAsString = nil;
-//        latValueAsString = (NSString*)[key objectForKey:@"la"] ;
-//        
-//        if(latValueAsString != nil)
-//        {
-//            double latRect = 0;
-//            double lngRect = 0;
-//            
-//            NSLog(@"%f", coordinate.latitude);
-//            NSLog(@"%f", _squareSize);
-//            
-//            int sign = (coordinate.latitude >= 0) ? 1 : -1;
-//            latRect = round((coordinate.latitude + _squareSize - fmod(coordinate.latitude,_squareSize) * sign) / _squareSize) * _squareSize;
-//            
-//            sign = (coordinate.longitude >= 0) ? 1 : -1;
-//            lngRect = round((coordinate.longitude - fmod(coordinate.longitude,_squareSize) * sign) / _squareSize) * _squareSize;
-//
-//            NSString* lngValueAsString = (NSString*)[key objectForKey:@"lo"] ;
-//            
-//            NSLog(latValueAsString);
-//            NSLog(@"%.3f", latRect);
-//            if([latValueAsString doubleValue] == latRect && [lngValueAsString doubleValue] == lngRect )
-//            {
-//                //NSLog(@"just one prout");
-//            }
-//        }
-//    }
+    
+    for(Territory *territory in _territoryList)
+    {
+        if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
+        {
+            NSLog(@"single prout");
+            //territory.isAllied = true;
+            [self.hf setRevenue:territory.revenue];
+            
+        }
+    }
 
     
     
@@ -267,6 +249,7 @@
         
         [self.view addSubview:self.hf.view];
         self.isJustMap = false;
+        
     }
     else
     {
@@ -280,23 +263,6 @@
     
     
 
-
-    
-
-    
-    
-    
-    // show all values
-//    for(id key in _terri) {
-//        
-//        id value = [_terri objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        NSLog(@"key: %@", keyAsString);
-//        NSLog(@"value: %@", valueAsString);
-//    }
     
     
     
@@ -351,13 +317,16 @@
             
             NSString *latitudeAsString = (NSString*)[key objectForKey:@"la"] ;
             NSString *longitudeAsString = (NSString*)[key objectForKey:@"lo"] ;
+            NSString *isAlliedAsString = (NSString*)[key objectForKey:@"a"] ;
+            NSString *revenueAsString = (NSString*)[key objectForKey:@"r"] ;
+            NSString *userIdAsString = (NSString*)[key objectForKey:@"o"] ;
             
             //NSLog(@"lat: %@ , long: %@", latitudeAsString, longitudeAsString);
             
             
 //            Territory *newTerritory = [[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize];
 //            [_territoryList addObject:newTerritory];
-            [_territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize]];
+            [_territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString]];
         }
 
         

@@ -10,4 +10,6 @@
 
 @interface HalfViewController : UIViewController
 
+- (void)setRevenue:(int)revenue;
+
 @end
