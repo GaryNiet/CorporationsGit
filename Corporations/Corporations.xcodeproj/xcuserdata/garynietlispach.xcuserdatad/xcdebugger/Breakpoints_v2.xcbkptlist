@@ -17,36 +17,6 @@
             endingLineNumber = "16"
             landmarkName = "rootViewController"
             landmarkType = "19">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate rootViewController]"
-                  moduleName = "Corporations"
-                  urlString = "file:///Users/garynietlispach/Documents/HES/CorporationsGit/Corporations/Corporations/AppDelegate.h"
-                  timestampString = "409439333.414819"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate setRootViewController:]"
-                  moduleName = "Corporations"
-                  urlString = "file:///Users/garynietlispach/Documents/HES/CorporationsGit/Corporations/Corporations/AppDelegate.h"
-                  timestampString = "409439333.415009"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "31">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -72,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Corporations/ViewController.m"
-            timestampString = "409429352.301515"
+            timestampString = "409672597.940832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-mapView:didTapOverlay:"
             landmarkType = "5">
             <Locations>
@@ -132,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Corporations/ViewController.m"
-            timestampString = "409429352.301515"
+            timestampString = "409672597.940832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "-mapView:didTapOverlay:"
             landmarkType = "5">
             <Locations>
@@ -192,11 +162,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Corporations/ViewController.m"
-            timestampString = "409429352.301515"
+            timestampString = "409672597.940832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "-mapView:didTapOverlay:"
             landmarkType = "5">
             <Locations>
@@ -252,11 +222,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Corporations/ViewController.m"
-            timestampString = "409134659.747563"
+            timestampString = "409663378.850821"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "@interface ViewController()"
             landmarkType = "2">
          </BreakpointContent>

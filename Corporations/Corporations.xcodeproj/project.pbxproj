@@ -11,6 +11,7 @@
 		174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 174BE2B21850704000AD506C /* LoginPageViewController.m */; };
 		174BE2B81850751500AD506C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174BE2B71850751500AD506C /* FacebookSDK.framework */; };
 		177E553E1862F22F00548BFD /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = 177E553D1862F22F00548BFD /* Territory.m */; };
+		17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B1672B186AF2E4004EF363 /* ProfileView.m */; };
 		17E0B4A0184F3499007D31CF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B49F184F3499007D31CF /* Foundation.framework */; };
 		17E0B4A2184F3499007D31CF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B4A1184F3499007D31CF /* CoreGraphics.framework */; };
 		17E0B4A4184F3499007D31CF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B4A3184F3499007D31CF /* UIKit.framework */; };
@@ -59,6 +60,8 @@
 		174BE2B71850751500AD506C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		177E553C1862F22F00548BFD /* Territory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Territory.h; sourceTree = "<group>"; };
 		177E553D1862F22F00548BFD /* Territory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Territory.m; sourceTree = "<group>"; };
+		17B1672A186AF2E4004EF363 /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
+		17B1672B186AF2E4004EF363 /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
 		17E0B49C184F3499007D31CF /* Corporations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Corporations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17E0B49F184F3499007D31CF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		17E0B4A1184F3499007D31CF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -191,6 +194,8 @@
 				17E0B4B5184F3499007D31CF /* ViewController.m */,
 				177E553C1862F22F00548BFD /* Territory.h */,
 				177E553D1862F22F00548BFD /* Territory.m */,
+				17B1672A186AF2E4004EF363 /* ProfileView.h */,
+				17B1672B186AF2E4004EF363 /* ProfileView.m */,
 				17E0B4B7184F3499007D31CF /* Images.xcassets */,
 				17E0B4A6184F3499007D31CF /* Supporting Files */,
 			);
@@ -325,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1742FF4C18587566000CAECB /* HalfViewController.m in Sources */,
+				17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */,
 				17E0B4B6184F3499007D31CF /* ViewController.m in Sources */,
 				177E553E1862F22F00548BFD /* Territory.m in Sources */,
 				174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */,

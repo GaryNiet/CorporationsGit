@@ -7,17 +7,47 @@
 //
 
 #import "HalfViewController.h"
+#import "ViewController.h"
 
 @interface HalfViewController ()
 
-- (void)setRevenue:(int)revenue;
+- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
+-(void)setID:(NSString*)ID;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property NSString* identifier;
+@property float lat;
+@property float lng;
+@property int price;
+@property NSString* owner;
 
 @end
 
 @implementation HalfViewController
+
+- (IBAction)buyButton:(id)sender {
+    NSString* buyURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=purchaseTerritory&identifier=";
+    buyURL = [buyURL stringByAppendingString:_identifier];
+    buyURL = [buyURL stringByAppendingString:@"&lat="];
+    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
+    buyURL = [buyURL stringByAppendingString:@"&lng="];
+    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
+    buyURL = [buyURL stringByAppendingString:@"&owner="];
+    buyURL = [buyURL stringByAppendingString:_owner];
+    buyURL = [buyURL stringByAppendingString:@"&price="];
+    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _price]];
+    
+    NSLog(buyURL);
+    
+}
+- (IBAction)captureButton:(id)sender {
+}
+
+-(void)setID:(NSString *)ID
+{
+    _identifier = ID;
+}
 
 
 
@@ -43,9 +73,13 @@
 }
 
 
--(void)setRevenue:(int)revenue
+- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
 {
-    self.priceLabel.text = [NSString stringWithFormat:@"%d",revenue];
+    self.priceLabel.text = [NSString stringWithFormat:@"price : $ %d",revenue];
+    _lat = lat;
+    _lng = lng;
+    _price = price;
+    _owner = owner;
 }
 
 @end

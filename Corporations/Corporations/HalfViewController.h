@@ -10,6 +10,8 @@
 
 @interface HalfViewController : UIViewController
 
-- (void)setRevenue:(int)revenue;
+- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
+-(void)setID:(NSString*)ID;
+@property (nonatomic)  UIViewController* mainViewPointer;
 
 @end

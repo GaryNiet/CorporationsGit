@@ -13,14 +13,17 @@
 #import <CommonCrypto/CommonHMAC.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Territory.h"
+#import "ProfileView.h"
 
 @interface ViewController ()<GMSMapViewDelegate>
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) NSDictionary *terri;
+@property (strong, nonatomic) FBProfilePictureView *profilePictureView;
 
-
+@property __block NSString* facebookID;
 @property UIStoryboard* sb;
 @property HalfViewController *hf;
+@property ProfileView *profileViewController;
 @property bool isJustMap;
 @property GMSOverlay* shownOverlay;
 @property NSString* identifier;
@@ -38,7 +41,7 @@
     
     
 }
-
+@synthesize profilePictureView = _profilePictureView;
 @synthesize responseData = _responseData;
 
 - (void)createRects:(GMSCameraPosition *)camera {
@@ -98,6 +101,8 @@
     self.isJustMap = true;
     self.sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self.hf = [self.sb instantiateViewControllerWithIdentifier:@"halfView"];
+     
+    self.profileViewController = [self.sb instantiateViewControllerWithIdentifier: @"profileView"];
     self.squareSize = 0.01;
     self.territoryList = [[NSMutableArray alloc] init];
     
@@ -114,13 +119,12 @@
     
     __block NSString* loginURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=connection&identifier=";
     
-    __block NSString* facebookID;
     
     [FBRequestConnection startForMeWithCompletionHandler:
      ^(FBRequestConnection *connection, id result, NSError *error)
      {
          NSDictionary *userInfo = (NSDictionary *)result;
-         facebookID = [userInfo objectForKey:@"id"];
+         _facebookID = [userInfo objectForKey:@"id"];
          
          NSString* toHash = (NSString*)[UIDevice currentDevice].identifierForVendor;
          NSString* hash = [self hashedValue:@"string" andData:@"string2"];
@@ -129,7 +133,7 @@
          loginURL = [loginURL stringByAppendingString:hash];
          self.identifier = hash;
          loginURL = [loginURL stringByAppendingString:@"&user_id="];
-         loginURL = [loginURL stringByAppendingString:facebookID];
+         loginURL = [loginURL stringByAppendingString:_facebookID];
          
          
          
@@ -161,13 +165,13 @@
          _territoryConnection =[[NSURLConnection alloc] initWithRequest:territories delegate:self];
          
          
-
+         
          
      }];
     
     
     
-    
+
     
     
 }
@@ -235,9 +239,9 @@
     {
         if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
         {
-            NSLog(@"single prout");
             //territory.isAllied = true;
-            [self.hf setRevenue:territory.revenue];
+            [self.hf setAttr:territory.revenue :territory.latitude :territory.longitude :territory.revenue :territory.ownerID];
+            
             
         }
     }
@@ -248,6 +252,7 @@
     {
         
         [self.view addSubview:self.hf.view];
+        [self.hf setID:_identifier];
         self.isJustMap = false;
         
     }
@@ -289,6 +294,37 @@
     NSLog(@"didFailWithError");
     NSLog([NSString stringWithFormat:@"Connection failed: %@", [error description]]);
 }
+
+
+- (void)initializeProfilePic {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenWidth = screenSize.width;
+    
+    // Initialize the profile picture
+    self.profilePictureView = [[FBProfilePictureView alloc] init];
+    self.profilePictureView.layer.cornerRadius = 25;
+    // Set the size
+    self.profilePictureView.frame = CGRectMake(screenWidth -50.0, 0.0, 50.0, 50.0);
+    // Show the profile picture for a user
+    self.profilePictureView.profileID = _facebookID;
+    // Add the profile picture view to the main view
+    [self.view addSubview:self.profilePictureView];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(showProfileView)
+     forControlEvents:UIControlEventTouchDown];
+    button.frame = CGRectMake(screenWidth -50.0, 0.0, 50.0, 50.0);
+    [self.view addSubview:button];
+}
+
+- (void)showProfileView
+{
+    [self.view addSubview:self.profileViewController.view];
+    
+}
+
 
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -336,35 +372,11 @@
     
     [mapView_ clear];
     [self createRects:camera];
+    
+    
+    
+    [self initializeProfilePic];
 
-    
-    // show all values
-//    for(id key in res) {
-//        
-//        id value = [res objectForKey:key];
-//        
-//        NSString *keyAsString = (NSString *)key;
-//        NSString *valueAsString = (NSString *)value;
-//        
-//        NSLog(@"key: %@", keyAsString);
-//        NSLog(@"value: %@", valueAsString);
-//        
-//        
-//    }
-    
-//    NSArray *result = [res objectForKey:@"results"];
-//    
-//    for(id key in result)
-//    {
-//    NSString *valueAsString = (NSString*)[key objectForKey:@"a"] ;
-//    NSLog(@"value: %@", valueAsString);
-//    }
-    
-    
-    // extract specific value...
-    //NSArray *results = [res objectForKey:@"results"];
-    
-    //NSLog( @"%@", results );
     
 
     
