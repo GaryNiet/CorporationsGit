@@ -14,6 +14,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "Territory.h"
 #import "ProfileView.h"
+#import "Player.h"
 
 @interface ViewController ()<GMSMapViewDelegate>
 @property (nonatomic, strong) NSMutableData *responseData;
@@ -30,8 +31,10 @@
 @property NSMutableArray* rectTab;
 @property NSMutableData* allTerritories;
 @property NSURLConnection* territoryConnection;
+@property NSURLConnection* profileConnection;
 @property double squareSize;
 @property NSMutableArray* territoryList;
+@property Player* playerProfile;
 
 @end
 
@@ -69,14 +72,22 @@
                 
                 GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
                 polygon.tappable = false;
-                if(territory.isAllied == true)
+                if(territory.ownerID == _facebookID)
                 {
-                polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                    polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
                 }
                 else
                 {
-                    polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                    if(territory.isAllied == true)
+                    {
+                        polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                    }
+                    else
+                    {
+                        polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                    }
                 }
+
                 polygon.strokeColor = [UIColor blackColor];
                 polygon.strokeWidth = 2;
                 polygon.map = mapView_;
@@ -105,6 +116,7 @@
     self.profileViewController = [self.sb instantiateViewControllerWithIdentifier: @"profileView"];
     self.squareSize = 0.01;
     self.territoryList = [[NSMutableArray alloc] init];
+    self.playerProfile = [[Player alloc] init];
     
 }
 
@@ -163,6 +175,14 @@
          NSURLRequest *territories = [NSURLRequest requestWithURL: [NSURL URLWithString:getTerritoriesURL]];
          
          _territoryConnection =[[NSURLConnection alloc] initWithRequest:territories delegate:self];
+         
+         
+         
+         NSString* getProfileURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=profile&identifier=";
+         getProfileURL = [getProfileURL stringByAppendingString:self.identifier];
+         NSURLRequest *profile = [NSURLRequest requestWithURL: [NSURL URLWithString:getProfileURL]];
+         NSLog(getProfileURL);
+         _profileConnection =[[NSURLConnection alloc] initWithRequest:profile delegate:self];
          
          
          
@@ -241,6 +261,9 @@
         {
             //territory.isAllied = true;
             [self.hf setAttr:territory.revenue :territory.latitude :territory.longitude :territory.revenue :territory.ownerID];
+            NSLog([NSString stringWithFormat:@"ownerID: %@", territory.ownerID]);
+            NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
+            
             
             
         }
@@ -321,6 +344,8 @@
 
 - (void)showProfileView
 {
+    
+    [_profileViewController displayInfo: _playerProfile];
     [self.view addSubview:self.profileViewController.view];
     
 }
@@ -356,30 +381,48 @@
             NSString *isAlliedAsString = (NSString*)[key objectForKey:@"a"] ;
             NSString *revenueAsString = (NSString*)[key objectForKey:@"r"] ;
             NSString *userIdAsString = (NSString*)[key objectForKey:@"o"] ;
-            
-            //NSLog(@"lat: %@ , long: %@", latitudeAsString, longitudeAsString);
-            
-            
-//            Territory *newTerritory = [[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize];
-//            [_territoryList addObject:newTerritory];
+
             [_territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString]];
         }
 
         
     
     }
+    
+    if(connection == _profileConnection)
+    {
+        
 
+            
+            _playerProfile.userID = (NSString*)[res valueForKeyPath:@"results.id"] ;
+            _playerProfile.allianceCount = [[res valueForKeyPath:@"results.na"] integerValue];
+            _playerProfile.territoryCount = [[res valueForKeyPath:@"results.nt"] integerValue] ;
+            _playerProfile.rank = [[res valueForKeyPath:@"results.r"] integerValue] ;
+            _playerProfile.money = [[res valueForKeyPath:@"results.cm"] integerValue] ;
+            _playerProfile.revenue = [[res valueForKeyPath:@"results.cr"] integerValue] ;
+            _playerProfile.totalGain = [[res valueForKeyPath:@"results.tg"] integerValue] ;
+            _playerProfile.xp = [[res valueForKeyPath:@"results.ep"] integerValue] ;
+            _playerProfile.homeLatitude = [[res valueForKeyPath:@"results.hlat"] floatValue];
+            _playerProfile.homeLongitude = [[res valueForKeyPath:@"results.hlng"] floatValue];
+            _playerProfile.purchasePriceLvl = [[res valueForKeyPath:@"results.ppl"] integerValue];
+            _playerProfile.purchaseDistanceLvl = [[res valueForKeyPath:@"results.pdl"] integerValue];
+            _playerProfile.experienceLimitLvl = [[res valueForKeyPath:@"results.ell"] integerValue];
+            _playerProfile.moneyLimitLvl = [[res valueForKeyPath:@"results.mll"] integerValue];
+            _playerProfile.experienceQteLvl = [[res valueForKeyPath:@"results.eqfl"] integerValue];
+            _playerProfile.alliancePriceLvl = [[res valueForKeyPath:@"results.apl"] integerValue] ;
+        
+        
+        
+
+    }
+
+    
     
     [mapView_ clear];
     [self createRects:camera];
-    
-    
-    
+
     [self initializeProfilePic];
-
-    
-
-    
+ 
 }
 
 

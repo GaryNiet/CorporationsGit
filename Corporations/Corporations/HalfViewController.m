@@ -40,8 +40,23 @@
     
     NSLog(buyURL);
     
+    NSURLRequest *buyResponse = [NSURLRequest requestWithURL: [NSURL URLWithString:buyURL]];
+    
 }
-- (IBAction)captureButton:(id)sender {
+- (IBAction)captureButton:(id)sender
+{
+    NSString* captureURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=captureTerritory&identifier=";
+    captureURL = [captureURL stringByAppendingString:_identifier];
+    captureURL = [captureURL stringByAppendingString:@"&lat="];
+    captureURL = [captureURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
+    captureURL = [captureURL stringByAppendingString:@"&lng="];
+    captureURL = [captureURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
+    captureURL = [captureURL stringByAppendingString:@"&owner="];
+    captureURL = [captureURL stringByAppendingString:_owner];
+    
+    NSLog(captureURL);
+    
+    NSURLRequest *captureResponse = [NSURLRequest requestWithURL: [NSURL URLWithString:captureURL]];
 }
 
 -(void)setID:(NSString *)ID

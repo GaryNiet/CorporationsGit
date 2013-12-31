@@ -40,6 +40,7 @@
 		17E0B4EB184F3539007D31CF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B4EA184F3539007D31CF /* OpenGLES.framework */; };
 		17E0B4ED184F353F007D31CF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B4EC184F353F007D31CF /* QuartzCore.framework */; };
 		17E0B4EF184F3546007D31CF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B4EE184F3546007D31CF /* SystemConfiguration.framework */; };
+		17E560FA1873110600240A85 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 17E560F91873110600240A85 /* Player.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		17E0B4EA184F3539007D31CF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		17E0B4EC184F353F007D31CF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		17E0B4EE184F3546007D31CF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		17E560F81873110600240A85 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		17E560F91873110600240A85 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,8 @@
 				177E553D1862F22F00548BFD /* Territory.m */,
 				17B1672A186AF2E4004EF363 /* ProfileView.h */,
 				17B1672B186AF2E4004EF363 /* ProfileView.m */,
+				17E560F81873110600240A85 /* Player.h */,
+				17E560F91873110600240A85 /* Player.m */,
 				17E0B4B7184F3499007D31CF /* Images.xcassets */,
 				17E0B4A6184F3499007D31CF /* Supporting Files */,
 			);
@@ -329,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17E560FA1873110600240A85 /* Player.m in Sources */,
 				1742FF4C18587566000CAECB /* HalfViewController.m in Sources */,
 				17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */,
 				17E0B4B6184F3499007D31CF /* ViewController.m in Sources */,
