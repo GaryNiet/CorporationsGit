@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface ViewController : UIViewController
+- (void)createRects;
 
+- (GMSMapView *)mapView_;
 
+- (void)setMapView_:(GMSMapView *)newValue;
+- (NSMutableArray *)territoryList;
+
+- (void)setTerritoryList:(NSMutableArray *)newValue;
 @end

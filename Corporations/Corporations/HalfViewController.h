@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
 
 @interface HalfViewController : UIViewController
 
-- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
+- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner :(int)isAllied;
 -(void)setID:(NSString*)ID;
-@property (nonatomic)  UIViewController* mainViewPointer;
+-(void)setParentPointer :(ViewController*)vc;
 
 @end

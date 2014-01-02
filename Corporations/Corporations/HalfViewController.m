@@ -8,10 +8,10 @@
 
 #import "HalfViewController.h"
 #import "ViewController.h"
+#import "Territory.h"
 
 @interface HalfViewController ()
 
-- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
 -(void)setID:(NSString*)ID;
 
 
@@ -21,10 +21,37 @@
 @property float lng;
 @property int price;
 @property NSString* owner;
+@property ViewController* parentPointer;
+@property int isAllied;
 
 @end
 
 @implementation HalfViewController
+- (IBAction)askAlliancePress:(id)sender
+{
+    NSString* allyURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=updateAlliance&identifier=";
+    allyURL = [allyURL stringByAppendingString:_identifier];
+    allyURL = [allyURL stringByAppendingString:@"&ally="];
+    allyURL = [allyURL stringByAppendingString:_owner];
+    allyURL = [allyURL stringByAppendingString:@"&createOrDelete="];
+    
+    int createOrDestroy;
+    if(_isAllied == 1)
+    {
+        createOrDestroy = 0;
+    }
+    else
+    {
+        createOrDestroy = 1;
+    }
+    
+    allyURL = [allyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", createOrDestroy]];
+    
+    
+    NSURLRequest *allyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:allyURL]];
+    NSURLConnection* allyConnection = [[NSURLConnection alloc] initWithRequest:allyRequest delegate:self];
+    
+}
 
 - (IBAction)buyButton:(id)sender {
     NSString* buyURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=purchaseTerritory&identifier=";
@@ -88,13 +115,41 @@
 }
 
 
-- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner;
+-(void)setParentPointer:(ViewController *)vc
+{
+    _parentPointer = vc;
+}
+
+
+- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner :(int)isAllied;
 {
     self.priceLabel.text = [NSString stringWithFormat:@"price : $ %d",revenue];
     _lat = lat;
     _lng = lng;
     _price = price;
     _owner = owner;
+    _isAllied = isAllied;
 }
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    for(Territory *territory in [_parentPointer territoryList])
+    {
+        if([[territory ownerID] isEqualToString:_owner])
+        {            if(territory.isAllied == 0)
+            {
+                territory.isAllied = 1;
+            }
+            else
+            {
+                territory.isAllied = 0;
+            }
+        }
+    }
+    
+    [[_parentPointer mapView_] clear];
+    [_parentPointer createRects];
+}
+
 
 @end

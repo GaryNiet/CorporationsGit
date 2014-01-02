@@ -17,6 +17,9 @@
 #import "Player.h"
 
 @interface ViewController ()<GMSMapViewDelegate>
+{
+    NSMutableArray* territoryList;
+}
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) NSDictionary *terri;
 @property (strong, nonatomic) FBProfilePictureView *profilePictureView;
@@ -35,6 +38,9 @@
 @property double squareSize;
 @property NSMutableArray* territoryList;
 @property Player* playerProfile;
+@property GMSMapView* mv;
+
+
 
 @end
 
@@ -47,17 +53,17 @@
 @synthesize profilePictureView = _profilePictureView;
 @synthesize responseData = _responseData;
 
-- (void)createRects:(GMSCameraPosition *)camera {
+- (void)createRects{
     
     
     
     self.rectTab = [NSMutableArray array];
-    int latitude = (int)mapView_.camera.target.latitude;
-    int longitude = (int)mapView_.camera.target.longitude;
+    int latitude = (int)[self mapView_].camera.target.latitude;
+    int longitude = (int)[self mapView_].camera.target.longitude;
     
     
     
-    for(Territory *territory in _territoryList)
+    for(Territory *territory in territoryList)
     {
         if(territory.latitude<latitude+10 && territory.latitude > latitude-10)
         {
@@ -78,19 +84,19 @@
                 }
                 else
                 {
-                    if(territory.isAllied == true)
+                    if(territory.isAllied == 1)
                     {
-                        polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                        polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
                     }
                     else
                     {
-                        polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                        polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
                     }
                 }
 
                 polygon.strokeColor = [UIColor blackColor];
                 polygon.strokeWidth = 2;
-                polygon.map = mapView_;
+                polygon.map = [self mapView_];
                 
             }
         }
@@ -105,13 +111,15 @@
     camera = [GMSCameraPosition cameraWithLatitude:47.048878
                                          longitude:6.816487
                                               zoom:9];
-    mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-    mapView_.myLocationEnabled = YES;
-    mapView_.delegate = self;
-    self.view = mapView_;
+    [self setMapView_: [GMSMapView mapWithFrame:CGRectZero camera:camera]];
+    [self mapView_].myLocationEnabled = YES;
+    [self mapView_].delegate = self;
+    self.view = [self mapView_];
     self.isJustMap = true;
     self.sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self.hf = [self.sb instantiateViewControllerWithIdentifier:@"halfView"];
+    [self.hf setParentPointer:self];
+    _mv = [self mapView_];
      
     self.profileViewController = [self.sb instantiateViewControllerWithIdentifier: @"profileView"];
     self.squareSize = 0.01;
@@ -255,12 +263,12 @@
     //NSDictionary *result = (NSDictionary*)[_terri objectForKey:@"results"];
     
     
-    for(Territory *territory in _territoryList)
+    for(Territory *territory in territoryList)
     {
         if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
         {
             //territory.isAllied = true;
-            [self.hf setAttr:territory.revenue :territory.latitude :territory.longitude :territory.revenue :territory.ownerID];
+            [self.hf setAttr:territory.revenue :territory.latitude :territory.longitude :territory.revenue :territory.ownerID :territory.isAllied];
             NSLog([NSString stringWithFormat:@"ownerID: %@", territory.ownerID]);
             NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
             
@@ -285,8 +293,8 @@
         self.isJustMap = true;
     }
     
-    [mapView_ clear];
-    [self createRects:camera];
+    [[self mapView_] clear];
+    [self createRects];
     
     
     
@@ -300,8 +308,8 @@
 
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {
-    [mapView_ clear];
-    [self createRects:camera];
+    [[self mapView_] clear];
+    [self createRects];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -381,8 +389,12 @@
             NSString *isAlliedAsString = (NSString*)[key objectForKey:@"a"] ;
             NSString *revenueAsString = (NSString*)[key objectForKey:@"r"] ;
             NSString *userIdAsString = (NSString*)[key objectForKey:@"o"] ;
+            NSString *isSpecialTerritory = (NSString*)[key objectForKey:@"s"] ;
+            NSString *buyingPrice = (NSString*)[key objectForKey:@"pp"] ;
+            NSString *sellingPrice = (NSString*)[key objectForKey:@"sp"] ;
+            NSString *ownedTime = (NSString*)[key objectForKey:@"t"] ;
 
-            [_territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString]];
+            [territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString]];
         }
 
         
@@ -418,13 +430,30 @@
 
     
     
-    [mapView_ clear];
-    [self createRects:camera];
+    [[self mapView_] clear];
+    [self createRects];
 
     [self initializeProfilePic];
  
 }
 
 
+
+
+- (GMSMapView *)mapView_ {
+    return mapView_;
+}
+
+- (void)setMapView_:(GMSMapView *)newValue {
+    mapView_ = newValue;
+}
+
+- (NSMutableArray *)territoryList {
+    return territoryList;
+}
+
+- (void)setTerritoryList:(NSMutableArray *)newValue {
+    territoryList = newValue;
+}
 
 @end

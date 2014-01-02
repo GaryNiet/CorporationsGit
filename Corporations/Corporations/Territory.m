@@ -48,7 +48,7 @@
         _longitude = lng;
         _size = width;
         _revenue = revenue;
-        _ownerID = userId;
+        ownerID = userId;
         _isAllied = isAllied;
         
         int sign = (_latitude >= 0) ? 1 : -1;
@@ -57,7 +57,8 @@
         sign = (_longitude >= 0) ? 1 : -1;
         _lngLeft = round((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;
         
-        _isAllied = 1;
+        
+        _isAllied = isAllied;
         
     }
     return self;
@@ -68,5 +69,13 @@
     return (lat < _latitude + _size && lat > _latitude && lng > _longitude && lng < _longitude + _size);
 }
 
+
+- (NSString *)ownerID {
+    return ownerID;
+}
+
+- (void)setOwnerID:(NSString *)newValue {
+    ownerID = newValue;
+}
 
 @end

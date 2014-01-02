@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface Territory : NSObject
+{
+    NSString* ownerID;
+}
 
 @property float latitude;
 @property float longitude;
@@ -17,11 +20,14 @@
 @property float lngLeft;
 @property int isAllied;
 @property int revenue;
-@property NSString *ownerID;
 
 - (id)init;
 - (id)initWithParams:(NSMutableDictionary *)params;
 - (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId;
 - (float)isInBounds: (float)lat : (float)lng;
+
+- (NSString *)ownerID;
+
+- (void)setOwnerID:(NSString *)newValue;
 
 @end
