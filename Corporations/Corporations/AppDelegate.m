@@ -69,6 +69,13 @@
     return wasHandled;
 }
 
+-(void)changeView
+{
+    self.window.rootViewController = [[ViewController alloc]init];
+}
+
+
+
 + (NSString *)newUUID
 {
     CFUUIDRef theUUID = CFUUIDCreate(NULL);

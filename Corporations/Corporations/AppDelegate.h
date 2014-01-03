@@ -16,4 +16,7 @@
 @property (strong, nonatomic) LoginPageViewController *rootViewController;
 @property (strong, nonatomic) ViewController *mapViewController;
 
+-(void)changeView;
+
+
 @end

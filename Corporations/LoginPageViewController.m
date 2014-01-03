@@ -8,9 +8,11 @@
 
 #import "LoginPageViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface LoginPageViewController ()
 
+@property bool loginState;
 -(IBAction)buttonClickHandler:(id)sender;
 
 @end
@@ -43,6 +45,10 @@
                                    loginView.frame.size.height/2);
     [self.view addSubview:loginView];
     [loginView sizeToFit];
+    
+    loginView.delegate = self;
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,7 +59,19 @@
 
 -(IBAction)buttonClickHandler:(id)sender
 {
-    
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] changeView];
+
+}
+
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
+{
+    _loginState = true;
+    _loginButton.hidden = false;
+}
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
+{
+    _loginState = false;
+    _loginButton.hidden = true;
 }
 
 - (IBAction)buttonClicked:(id)sender {
