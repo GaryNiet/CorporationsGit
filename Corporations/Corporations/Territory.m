@@ -10,7 +10,6 @@
 
 @interface Territory()
 -(id)initWithParams:(NSMutableDictionary *)params;
--(id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId;
 
 @end
 
@@ -40,7 +39,8 @@
 }
 
 
--(id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString *)userId{
+- (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId :(int)isSpecialTerritory :(int)buyingPrice :(int)sellingPrice :(int)ownedTime
+{
     self = [super init];
     if (self)
     {
@@ -50,6 +50,10 @@
         _revenue = revenue;
         ownerID = userId;
         _isAllied = isAllied;
+        _buyingPrice = buyingPrice;
+        _sellingPrice = sellingPrice;
+        _isSpecialItem = isSpecialTerritory;
+        _ownedTime = ownedTime;
         
         int sign = (_latitude >= 0) ? 1 : -1;
         _latTop = round((_latitude + _size - fmod(_latitude,_size) * sign) / _size) * _size;
@@ -58,7 +62,6 @@
         _lngLeft = round((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;
         
         
-        _isAllied = isAllied;
         
     }
     return self;

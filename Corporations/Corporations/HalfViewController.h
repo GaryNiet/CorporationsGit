@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
+#import "Territory.h"
 
 @interface HalfViewController : UIViewController
 
-- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner :(int)isAllied;
+- (void)setAttr: (Territory*)territory;
 -(void)setID:(NSString*)ID;
 -(void)setParentPointer :(ViewController*)vc;
 

@@ -39,6 +39,8 @@
 @property NSMutableArray* territoryList;
 @property Player* playerProfile;
 @property GMSMapView* mv;
+@property float shownTerritoryLat;
+@property float shownTerritoryLng;
 
 
 
@@ -229,30 +231,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) mapView: (GMSMapView *) mapView  didTapOverlay: (GMSPolygon *) overlay
-{
-    
-    
-    
-    if(self.isJustMap == true)
-    {
-        
-        [self.view addSubview:self.hf.view];
-        self.isJustMap = false;
-    }
-    else if(self.isJustMap == false && overlay == self.shownOverlay)
-    {
-        [self.hf.view removeFromSuperview];
-        self.isJustMap = true;
-    }
-    else
-    {
-        
-        NSLog(@"update overlay");
-    }
-    self.shownOverlay = overlay;
-    
-}
 
 - (void) mapView: (GMSMapView *) mapView  didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
@@ -268,38 +246,32 @@
         if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
         {
             //territory.isAllied = true;
-            [self.hf setAttr:territory.revenue :territory.latitude :territory.longitude :territory.revenue :territory.ownerID :territory.isAllied];
+            [self.hf setAttr: territory];
             NSLog([NSString stringWithFormat:@"ownerID: %@", territory.ownerID]);
             NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
             
+            [self.hf setID:_identifier];
+            if(territory.latitude == _shownTerritoryLat && territory.longitude == _shownTerritoryLng)
+            {
+                [self.hf.view removeFromSuperview];
+                _shownTerritoryLat = 0;
+                _shownTerritoryLng = 0;
+            }
+            else
+            {
+                [self.view addSubview:self.hf.view];
+                _shownTerritoryLat = territory.latitude;
+                _shownTerritoryLng = territory.longitude;
+            }
             
             
         }
     }
 
-    
-    
-    if(self.isJustMap == true)
-    {
-        
-        [self.view addSubview:self.hf.view];
-        [self.hf setID:_identifier];
-        self.isJustMap = false;
-        
-    }
-    else
-    {
-        [self.hf.view removeFromSuperview];
-        self.isJustMap = true;
-    }
+
     
     [[self mapView_] clear];
     [self createRects];
-    
-    
-    
-
-    
     
     
     
@@ -394,7 +366,8 @@
             NSString *sellingPrice = (NSString*)[key objectForKey:@"sp"] ;
             NSString *ownedTime = (NSString*)[key objectForKey:@"t"] ;
 
-            [territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString]];
+            [territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString :[isSpecialTerritory intValue] :[buyingPrice intValue] :[sellingPrice intValue] :[ownedTime intValue]]];
+            
         }
 
         

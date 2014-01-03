@@ -16,6 +16,15 @@
 
 
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ownerLabel;
+@property (weak, nonatomic) IBOutlet UILabel *alliedLabel;
+@property (weak, nonatomic) IBOutlet UILabel *revenueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalGainLabel;
+@property (weak, nonatomic) IBOutlet UILabel *purchasingPriceLabel;
+@property (weak, nonatomic) IBOutlet UIButton *captureButton;
+@property (weak, nonatomic) IBOutlet UIButton *buyButton;
+@property (weak, nonatomic) IBOutlet UIButton *askAllianceButton;
+@property (weak, nonatomic) IBOutlet UIButton *changePriceButton;
 @property NSString* identifier;
 @property float lat;
 @property float lng;
@@ -23,10 +32,21 @@
 @property NSString* owner;
 @property ViewController* parentPointer;
 @property int isAllied;
+@property int buyingPrice;
+@property int sellingPrice;
+@property int isSpecialTerritory;
+@property int ownedTime;
+@property int revenue;
+@property NSURLConnection* allyConnection;
+@property NSURLConnection* changePriceConnection;
+@property NSURLConnection* buyConnection;
+@property NSURLConnection* captureConnection;
+
 
 @end
 
 @implementation HalfViewController
+
 - (IBAction)askAlliancePress:(id)sender
 {
     NSString* allyURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=updateAlliance&identifier=";
@@ -49,8 +69,12 @@
     
     
     NSURLRequest *allyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:allyURL]];
-    NSURLConnection* allyConnection = [[NSURLConnection alloc] initWithRequest:allyRequest delegate:self];
+    _allyConnection = [[NSURLConnection alloc] initWithRequest:allyRequest delegate:self];
     
+}
+- (IBAction)changeSalePrice:(id)sender
+{
+    NSLog(@"change price");
 }
 
 - (IBAction)buyButton:(id)sender {
@@ -67,7 +91,8 @@
     
     NSLog(buyURL);
     
-    NSURLRequest *buyResponse = [NSURLRequest requestWithURL: [NSURL URLWithString:buyURL]];
+    NSURLRequest *buyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:buyURL]];
+    _buyConnection = [[NSURLConnection alloc] initWithRequest:buyRequest delegate:self];
     
 }
 - (IBAction)captureButton:(id)sender
@@ -83,7 +108,8 @@
     
     NSLog(captureURL);
     
-    NSURLRequest *captureResponse = [NSURLRequest requestWithURL: [NSURL URLWithString:captureURL]];
+    NSURLRequest *captureRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:captureURL]];
+    _captureConnection = [[NSURLConnection alloc] initWithRequest:captureRequest delegate:self];
 }
 
 -(void)setID:(NSString *)ID
@@ -121,30 +147,129 @@
 }
 
 
-- (void)setAttr:(int)revenue : (float)lat : (float)lng : (int)price : (NSString*)owner :(int)isAllied;
+- (void)setAttr:(Territory*)territory;
 {
-    self.priceLabel.text = [NSString stringWithFormat:@"price : $ %d",revenue];
-    _lat = lat;
-    _lng = lng;
-    _price = price;
-    _owner = owner;
-    _isAllied = isAllied;
+    
+    _lat = territory.latitude;
+    _lng = territory.longitude;
+    _price = territory.revenue;
+    _owner = territory.ownerID;
+    _revenue = territory.revenue;
+    _isAllied = territory.isAllied;
+    _buyingPrice = territory.buyingPrice;
+    _sellingPrice = territory.sellingPrice;
+    _isSpecialTerritory = territory.isSpecialItem;
+    _ownedTime = territory.ownedTime;
+    
+    
+    self.priceLabel.text = [NSString stringWithFormat:@"selling price : $ %d",_sellingPrice];
+    
+    if(_isAllied == true)
+    {
+        self.alliedLabel.text = @"Is Allied : yes";
+    }
+    else
+    {
+        self.alliedLabel.text = @"Is Allied: no";
+    }
+    
+    self.ownerLabel.text = [NSString stringWithFormat:@"owner : %@", _owner];
+    self.revenueLabel.text = [NSString stringWithFormat:@"revenue : $ %d",_revenue];
+    self.totalGainLabel.text = [NSString stringWithFormat:@"total gain : $ %d", _ownedTime*_revenue];
+    self.purchasingPriceLabel.text = [NSString stringWithFormat:@"price : $ %d",_buyingPrice];
+    
+    
+    
+    if(_owner == 0)
+    {
+        self.priceLabel.hidden = true;
+        self.alliedLabel.hidden = true;
+        self.ownerLabel.hidden = true;
+        self.revenueLabel.hidden = true;
+        self.totalGainLabel.hidden = true;
+        
+        _changePriceButton.hidden = true;
+        _captureButton.hidden = true;
+        _askAllianceButton.hidden = true;
+        
+    }
+    else if(_isSpecialTerritory)
+    {
+        self.priceLabel.hidden = true;
+        self.totalGainLabel.hidden = true;
+        self.purchasingPriceLabel.hidden = true;
+        
+        _buyButton.hidden = true;
+        _changePriceButton.hidden = true;
+        _askAllianceButton.hidden = true;
+    }
+    else if(_owner == _identifier)
+    {
+        self.alliedLabel.hidden = true;
+        self.ownerLabel.hidden = true;
+        
+        _buyButton.hidden = true;
+        _captureButton.hidden = true;
+        _askAllianceButton.hidden = true;
+    }
+    else
+    {
+        self.totalGainLabel.hidden = true;
+        self.purchasingPriceLabel.hidden = true;
+        
+        
+        _changePriceButton.hidden = true;
+        _captureButton.hidden = true;
+    }
+    
+    
+    
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    for(Territory *territory in [_parentPointer territoryList])
+    if(connection == _allyConnection)
     {
-        if([[territory ownerID] isEqualToString:_owner])
-        {            if(territory.isAllied == 0)
-            {
-                territory.isAllied = 1;
-            }
-            else
-            {
-                territory.isAllied = 0;
+        for(Territory *territory in [_parentPointer territoryList])
+        {
+            if([[territory ownerID] isEqualToString:_owner])
+            {            if(territory.isAllied == 0)
+                {
+                    territory.isAllied = 1;
+                }
+                else
+                {
+                    territory.isAllied = 0;
+                }
             }
         }
+    }
+    
+    if(connection == _buyConnection)
+    {
+        for(Territory *territory in [_parentPointer territoryList])
+        {
+            if(territory.latitude == _lat && territory.longitude == _lng)
+            {
+                territory.ownerID = _identifier;
+            }
+        }
+    }
+    
+    if(connection == _captureConnection)
+    {
+        for(Territory *territory in [_parentPointer territoryList])
+        {
+            if(territory.latitude == _lat && territory.longitude == _lng)
+            {
+                territory.ownerID = _identifier;
+            }
+        }
+    }
+    
+    if(connection == _changePriceConnection)
+    {
+        
     }
     
     [[_parentPointer mapView_] clear];

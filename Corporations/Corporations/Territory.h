@@ -20,10 +20,14 @@
 @property float lngLeft;
 @property int isAllied;
 @property int revenue;
+@property int isSpecialItem;
+@property int buyingPrice;
+@property int sellingPrice;
+@property int ownedTime;
 
 - (id)init;
 - (id)initWithParams:(NSMutableDictionary *)params;
-- (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId;
+- (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId :(int)isSpecialTerritory :(int)buyingPrice :(int)sellingPrice :(int)ownedTime;
 - (float)isInBounds: (float)lat : (float)lng;
 
 - (NSString *)ownerID;
