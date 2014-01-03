@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "Territory.h"
 
-@interface HalfViewController ()
+@interface HalfViewController()
 
 -(void)setID:(NSString*)ID;
 
@@ -41,6 +41,11 @@
 @property NSURLConnection* changePriceConnection;
 @property NSURLConnection* buyConnection;
 @property NSURLConnection* captureConnection;
+@property NSMutableData* responseData;
+@property NSMutableArray* pickerData;
+@property (strong, nonatomic) IBOutlet UILabel *color;
+@property (weak, nonatomic) IBOutlet UIPickerView *picker;
+@property (strong, nonatomic)          NSArray *colorArray;
 
 
 @end
@@ -74,7 +79,7 @@
 }
 - (IBAction)changeSalePrice:(id)sender
 {
-    NSLog(@"change price");
+    _picker.hidden = false;
 }
 
 - (IBAction)buyButton:(id)sender {
@@ -131,7 +136,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.picker.hidden = true;
     self.view.frame = CGRectMake(0,self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
+    self.colorArray  = [[NSArray alloc]         initWithObjects:@"Blue",@"Green",@"Orange",@"Purple",@"Red",@"Yellow" , nil];
+}
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+    
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
+{
+    return 6;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
+{
+    return [self.colorArray objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row   inComponent:(NSInteger)component
+{
+    NSLog(@"Selected Row %d", row);
+    switch(row)
+    {
+            
+        case 0:
+            self.color.text = @"Blue #0000FF";
+            self.color.textColor = [UIColor colorWithRed:0.0f/255.0f green: 0.0f/255.0f blue:255.0f/255.0f alpha:255.0f/255.0f];
+            break;
+        case 1:
+            self.color.text = @"Green #00FF00";
+            self.color.textColor = [UIColor colorWithRed:0.0f/255.0f green: 255.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
+            break;
+        case 2:
+            self.color.text = @"Orange #FF681F";
+            self.color.textColor = [UIColor colorWithRed:205.0f/255.0f green:   140.0f/255.0f blue:31.0f/255.0f alpha:255.0f/255.0f];
+            break;
+        case 3:
+            self.color.text = @"Purple #FF00FF";
+            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   0.0f/255.0f blue:255.0f/255.0f alpha:255.0f/255.0f];
+            break;
+        case 4:
+            self.color.text = @"Red #FF0000";
+            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   0.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
+            break;
+        case 5:
+            self.color.text = @"Yellow #FFFF00";
+            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   255.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -149,6 +207,7 @@
 
 - (void)setAttr:(Territory*)territory;
 {
+    self.responseData = [NSMutableData data];
     
     _lat = territory.latitude;
     _lng = territory.longitude;
@@ -226,44 +285,98 @@
     
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    NSLog(@"didReceiveResponse");
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.responseData appendData:data];
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSError *myError = nil;
+    NSDictionary *res = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
+    
+    
     if(connection == _allyConnection)
     {
-        for(Territory *territory in [_parentPointer territoryList])
+        int flag = 0;
+        if([[res valueForKeyPath:@"status"]  isEqual: @"OK"])
         {
-            if([[territory ownerID] isEqualToString:_owner])
-            {            if(territory.isAllied == 0)
+            for(Territory *territory in [_parentPointer territoryList])
+            {
+                if([[territory ownerID] isEqualToString:_owner])
+                {            if(territory.isAllied == 0)
                 {
                     territory.isAllied = 1;
+                    flag = 1;
                 }
                 else
                 {
                     territory.isAllied = 0;
+                    flag = 0;
+                }
+                    
                 }
             }
+        }
+        
+        if(flag == 1)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Allied!" message:@"The Alliance was accepted" delegate:self cancelButtonTitle:@"OK"otherButtonTitles:nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alliance destroyed!" message:@"The Alliance was destroyed" delegate:self cancelButtonTitle:@"OK"otherButtonTitles:nil];
+            [alert show];
         }
     }
     
     if(connection == _buyConnection)
     {
-        for(Territory *territory in [_parentPointer territoryList])
+        if([[res valueForKeyPath:@"status"]  isEqual: @"OK"])
         {
-            if(territory.latitude == _lat && territory.longitude == _lng)
+            for(Territory *territory in [_parentPointer territoryList])
             {
-                territory.ownerID = _identifier;
+                if(territory.latitude == _lat && territory.longitude == _lng)
+                {
+                    territory.ownerID = _identifier;
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"transaction OK" message:@"You now own a new territory" delegate:self cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
             }
+        }
+        else if([[res valueForKeyPath:@"status"]  isEqual: @"NOT_ENOUGTH_MONEY"])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"not enough money" message:@"You don't have enough money to buy this territory" delegate:self cancelButtonTitle:@"OK"otherButtonTitles:nil];
+            [alert show];
+        }
+        else if([[res valueForKeyPath:@"status"]  isEqual: @"OWNER_CHANGE"])
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The owner has changed" message:@"You weren't fast enough and somebody else grabbed this territory" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
         }
     }
     
     if(connection == _captureConnection)
     {
-        for(Territory *territory in [_parentPointer territoryList])
+        if([[res valueForKeyPath:@"status"]  isEqual: @"OK"])
         {
-            if(territory.latitude == _lat && territory.longitude == _lng)
+            for(Territory *territory in [_parentPointer territoryList])
             {
-                territory.ownerID = _identifier;
+                if(territory.latitude == _lat && territory.longitude == _lng)
+                {
+                    territory.ownerID = _identifier;
+                }
             }
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Captured!" message:@"The territory was successfully captured" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
         }
     }
     

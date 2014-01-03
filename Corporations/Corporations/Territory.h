@@ -24,6 +24,7 @@
 @property int buyingPrice;
 @property int sellingPrice;
 @property int ownedTime;
+@property int selected;
 
 - (id)init;
 - (id)initWithParams:(NSMutableDictionary *)params;

@@ -10,10 +10,16 @@
 #import "ViewController.h"
 #import "Territory.h"
 
-@interface HalfViewController : UIViewController
+@interface HalfViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate>
 
 - (void)setAttr: (Territory*)territory;
 -(void)setID:(NSString*)ID;
 -(void)setParentPointer :(ViewController*)vc;
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component;
 
 @end

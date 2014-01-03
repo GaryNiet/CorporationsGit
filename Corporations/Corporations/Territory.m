@@ -44,6 +44,7 @@
     self = [super init];
     if (self)
     {
+        _selected = 0;
         _latitude = lat;
         _longitude = lng;
         _size = width;

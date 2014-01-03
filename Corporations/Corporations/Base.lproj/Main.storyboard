@@ -38,6 +38,24 @@
             </objects>
             <point key="canvasLocation" x="-302" y="52"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="6QO-D8-g9c">
+            <objects>
+                <viewController id="vVA-Ko-fop" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mat-pu-Mxz"/>
+                        <viewControllerLayoutGuide type="bottom" id="9eS-3c-Alm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9dA-fK-sE7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fcg-nB-WjA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="46" y="-11"/>
+        </scene>
         <!--Half View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -128,6 +146,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Lg-Hn-JQR">
+                                <rect key="frame" x="-5" y="48" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="A7x-6Z-uLW"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="Njq-M3-sse"/>
+                                </connections>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -139,6 +165,7 @@
                         <outlet property="captureButton" destination="eJg-Hh-QP8" id="Jct-dO-0Wp"/>
                         <outlet property="changePriceButton" destination="x1R-cN-IKF" id="Gbh-wU-4pS"/>
                         <outlet property="ownerLabel" destination="W1b-sH-G9M" id="saG-in-fuf"/>
+                        <outlet property="picker" destination="0Lg-Hn-JQR" id="n3K-ix-65f"/>
                         <outlet property="priceLabel" destination="mM9-Uq-LJx" id="fQg-nH-bF8"/>
                         <outlet property="purchasingPriceLabel" destination="tyZ-hX-tEU" id="aAU-rr-vlK"/>
                         <outlet property="revenueLabel" destination="bxY-TN-lye" id="vVX-hO-lhQ"/>
@@ -147,7 +174,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="194" y="58"/>
+            <point key="canvasLocation" x="450" y="-11"/>
         </scene>
         <!--Profile View-->
         <scene sceneID="goo-eI-UM8">
@@ -418,7 +445,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Gt-7o-cNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="553" y="2"/>
+            <point key="canvasLocation" x="824" y="-11"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

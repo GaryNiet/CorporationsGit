@@ -41,6 +41,8 @@
 @property GMSMapView* mv;
 @property float shownTerritoryLat;
 @property float shownTerritoryLng;
+@property float basicZoom;
+@property Territory* selectedTerritory;
 
 
 
@@ -95,9 +97,19 @@
                         polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
                     }
                 }
-
-                polygon.strokeColor = [UIColor blackColor];
-                polygon.strokeWidth = 2;
+                
+                if(territory.selected == true)
+                {
+                    polygon.strokeColor = [UIColor redColor];
+                    polygon.strokeWidth = 8;
+                }
+                else
+                {
+                    polygon.strokeColor = [UIColor blackColor];
+                    polygon.strokeWidth = 2;
+                }
+                
+                
                 polygon.map = [self mapView_];
                 
             }
@@ -110,9 +122,10 @@
 - (void)loadView {
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6.s
+    _basicZoom = 12.0;
     camera = [GMSCameraPosition cameraWithLatitude:47.048878
                                          longitude:6.816487
-                                              zoom:9];
+                                              zoom:_basicZoom];
     [self setMapView_: [GMSMapView mapWithFrame:CGRectZero camera:camera]];
     [self mapView_].myLocationEnabled = YES;
     [self mapView_].delegate = self;
@@ -238,6 +251,14 @@
     NSLog(@"longitude: %f", coordinate.longitude);
     
     
+    CGPoint point = [mapView_.projection pointForCoordinate:coordinate];
+    point.y = point.y + 100;
+    GMSCameraUpdate *pos = [GMSCameraUpdate setTarget:[mapView_.projection coordinateForPoint:point]];
+    [mapView_ animateWithCameraUpdate:pos];
+    
+    _selectedTerritory.selected = false;
+    
+    
     //NSDictionary *result = (NSDictionary*)[_terri objectForKey:@"results"];
     
     
@@ -245,7 +266,11 @@
     {
         if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
         {
-            //territory.isAllied = true;
+            
+            territory.selected = true;
+            _selectedTerritory = territory;
+            
+            
             [self.hf setAttr: territory];
             NSLog([NSString stringWithFormat:@"ownerID: %@", territory.ownerID]);
             NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
@@ -259,6 +284,7 @@
             }
             else
             {
+                
                 [self.view addSubview:self.hf.view];
                 _shownTerritoryLat = territory.latitude;
                 _shownTerritoryLng = territory.longitude;
