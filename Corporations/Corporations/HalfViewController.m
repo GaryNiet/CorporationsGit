@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buyButton;
 @property (weak, nonatomic) IBOutlet UIButton *askAllianceButton;
 @property (weak, nonatomic) IBOutlet UIButton *changePriceButton;
+@property (weak, nonatomic) IBOutlet UIButton *OKButton;
 @property NSString* identifier;
 @property float lat;
 @property float lng;
@@ -45,12 +46,36 @@
 @property NSMutableArray* pickerData;
 @property (strong, nonatomic) IBOutlet UILabel *color;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
-@property (strong, nonatomic)          NSArray *colorArray;
+@property (strong, nonatomic)          NSMutableArray *colorArray;
+@property NSString* userID;
+@property int pickedPrice;
+@property int wheel;
 
 
 @end
 
 @implementation HalfViewController
+
+- (IBAction)OKButtonPressed:(id)sender {
+    
+    _picker.hidden = true;
+    _OKButton.hidden = true;
+    _priceLabel.hidden = false;
+    _ownerLabel.hidden = false;
+    _alliedLabel.hidden = false;
+    _revenueLabel.hidden = false;
+    _totalGainLabel.hidden = false;
+    _purchasingPriceLabel.hidden = false;
+    _captureButton.hidden = false;
+    _buyButton.hidden = false;
+    _askAllianceButton.hidden = false;
+    _changePriceButton.hidden = false;
+    
+    _wheel = 0;
+    
+    //requete de changement de prix!
+    
+}
 
 - (IBAction)askAlliancePress:(id)sender
 {
@@ -79,7 +104,41 @@
 }
 - (IBAction)changeSalePrice:(id)sender
 {
-    _picker.hidden = false;
+    if(_wheel == 0)
+    {
+        _picker.hidden = false;
+        _OKButton.hidden = false;
+        _priceLabel.hidden = true;
+        _ownerLabel.hidden = true;
+        _alliedLabel.hidden = true;
+        _revenueLabel.hidden = true;
+        _totalGainLabel.hidden = true;
+        _purchasingPriceLabel.hidden = true;
+        _captureButton.hidden = true;
+        _buyButton.hidden = true;
+        _askAllianceButton.hidden = true;
+        _changePriceButton.hidden = false;
+        
+        _wheel = 1;
+    }
+    else
+    {
+        _picker.hidden = true;
+        _OKButton.hidden = true;
+        _priceLabel.hidden = false;
+        _ownerLabel.hidden = false;
+        _alliedLabel.hidden = false;
+        _revenueLabel.hidden = false;
+        _totalGainLabel.hidden = false;
+        _purchasingPriceLabel.hidden = false;
+        _captureButton.hidden = false;
+        _buyButton.hidden = false;
+        _askAllianceButton.hidden = false;
+        _changePriceButton.hidden = false;
+        
+        _wheel = 0;
+    }
+    
 }
 
 - (IBAction)buyButton:(id)sender {
@@ -122,7 +181,10 @@
     _identifier = ID;
 }
 
-
+-(void)setUserID:(NSString *)userID
+{
+    _userID = userID;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -137,8 +199,15 @@
 {
     [super viewDidLoad];
     self.picker.hidden = true;
+    self.OKButton.hidden = true;
+    self.wheel = 0;
     self.view.frame = CGRectMake(0,self.view.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.height/2);
-    self.colorArray  = [[NSArray alloc]         initWithObjects:@"Blue",@"Green",@"Orange",@"Purple",@"Red",@"Yellow" , nil];
+    self.colorArray  = [[NSMutableArray alloc]init];
+    
+    for(int i = 100; i<10100; i+=100)
+    {
+        [self.colorArray addObject: [NSString stringWithFormat:@"%d", i]];
+    }
 }
 
 // returns the number of 'columns' to display.
@@ -151,7 +220,7 @@
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
 {
-    return 6;
+    return 100;
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row   forComponent:(NSInteger)component
@@ -161,35 +230,8 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row   inComponent:(NSInteger)component
 {
-    NSLog(@"Selected Row %d", row);
-    switch(row)
-    {
-            
-        case 0:
-            self.color.text = @"Blue #0000FF";
-            self.color.textColor = [UIColor colorWithRed:0.0f/255.0f green: 0.0f/255.0f blue:255.0f/255.0f alpha:255.0f/255.0f];
-            break;
-        case 1:
-            self.color.text = @"Green #00FF00";
-            self.color.textColor = [UIColor colorWithRed:0.0f/255.0f green: 255.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
-            break;
-        case 2:
-            self.color.text = @"Orange #FF681F";
-            self.color.textColor = [UIColor colorWithRed:205.0f/255.0f green:   140.0f/255.0f blue:31.0f/255.0f alpha:255.0f/255.0f];
-            break;
-        case 3:
-            self.color.text = @"Purple #FF00FF";
-            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   0.0f/255.0f blue:255.0f/255.0f alpha:255.0f/255.0f];
-            break;
-        case 4:
-            self.color.text = @"Red #FF0000";
-            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   0.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
-            break;
-        case 5:
-            self.color.text = @"Yellow #FFFF00";
-            self.color.textColor = [UIColor colorWithRed:255.0f/255.0f green:   255.0f/255.0f blue:0.0f/255.0f alpha:255.0f/255.0f];
-            break;
-    }
+    _pickedPrice = (row+1)*100;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -262,12 +304,23 @@
         _changePriceButton.hidden = true;
         _askAllianceButton.hidden = true;
     }
-    else if(_owner == _identifier)
+    else if([_owner isEqualToString: _userID])
     {
         self.alliedLabel.hidden = true;
         self.ownerLabel.hidden = true;
         
         _buyButton.hidden = true;
+        _captureButton.hidden = true;
+        _askAllianceButton.hidden = true;
+        
+        self.priceLabel.hidden = false;
+        self.alliedLabel.hidden = true;
+        self.ownerLabel.hidden = true;
+        self.revenueLabel.hidden = false;
+        self.totalGainLabel.hidden = false;
+        self.purchasingPriceLabel = false;
+        
+        _changePriceButton.hidden = false;
         _captureButton.hidden = true;
         _askAllianceButton.hidden = true;
     }
@@ -343,7 +396,7 @@
             {
                 if(territory.latitude == _lat && territory.longitude == _lng)
                 {
-                    territory.ownerID = _identifier;
+                    territory.ownerID = _userID;
                     
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"transaction OK" message:@"You now own a new territory" delegate:self cancelButtonTitle:@"OK"
                                                           otherButtonTitles:nil];
@@ -371,7 +424,7 @@
             {
                 if(territory.latitude == _lat && territory.longitude == _lng)
                 {
-                    territory.ownerID = _identifier;
+                    territory.ownerID = _userID;
                 }
             }
             
@@ -388,6 +441,8 @@
     [[_parentPointer mapView_] clear];
     [_parentPointer createRects];
 }
+
+
 
 
 @end

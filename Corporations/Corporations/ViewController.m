@@ -43,6 +43,7 @@
 @property float shownTerritoryLng;
 @property float basicZoom;
 @property Territory* selectedTerritory;
+@property NSString* userID;
 
 
 
@@ -82,7 +83,8 @@
                 
                 GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
                 polygon.tappable = false;
-                if(territory.ownerID == _facebookID)
+                
+                if([territory.ownerID isEqualToString: _userID])
                 {
                     polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
                 }
@@ -140,6 +142,20 @@
     self.squareSize = 0.01;
     self.territoryList = [[NSMutableArray alloc] init];
     self.playerProfile = [[Player alloc] init];
+    self.userID = [[NSString alloc] init];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget: self action:@selector(didPan:)];
+    mapView_.gestureRecognizers = @[panRecognizer];
+    
+}
+
+- (void) didPan:(UIPanGestureRecognizer*) gestureRecognizer
+{
+    NSLog(@"x: %f",[gestureRecognizer translationInView:mapView_].x);
+    if(fabsf([gestureRecognizer translationInView:mapView_].x) + fabsf([gestureRecognizer translationInView:mapView_].x) >= 250)
+    {
+        [self.hf.view removeFromSuperview];
+    }
     
 }
 
@@ -209,15 +225,13 @@
          
          
          
-         
      }];
     
-    
-    
 
-    
-    
 }
+
+
+
 
 - (NSString *) hashedValue :(NSString *) key andData: (NSString *) data {
     
@@ -276,6 +290,8 @@
             NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
             
             [self.hf setID:_identifier];
+            [self.hf setUserID:_userID];
+            
             if(territory.latitude == _shownTerritoryLat && territory.longitude == _shownTerritoryLng)
             {
                 [self.hf.view removeFromSuperview];
@@ -304,8 +320,11 @@
 }
 
 
+
+
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {
+    
     [[self mapView_] clear];
     [self createRects];
 }
@@ -356,6 +375,10 @@
     
 }
 
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)_swi {
+    NSLog(@"Swipe received.");
+}
+
 
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -404,7 +427,7 @@
     {
         
 
-            
+            _userID = (NSString*)[res valueForKeyPath:@"results.id"];
             _playerProfile.userID = (NSString*)[res valueForKeyPath:@"results.id"] ;
             _playerProfile.allianceCount = [[res valueForKeyPath:@"results.na"] integerValue];
             _playerProfile.territoryCount = [[res valueForKeyPath:@"results.nt"] integerValue] ;
@@ -435,7 +458,6 @@
     [self initializeProfilePic];
  
 }
-
 
 
 

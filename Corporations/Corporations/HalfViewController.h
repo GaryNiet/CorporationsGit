@@ -14,6 +14,7 @@
 
 - (void)setAttr: (Territory*)territory;
 -(void)setID:(NSString*)ID;
+-(void)setUserID: (NSString*)userID;
 -(void)setParentPointer :(ViewController*)vc;
 
 // returns the number of 'columns' to display.
