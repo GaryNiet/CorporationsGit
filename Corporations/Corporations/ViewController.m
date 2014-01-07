@@ -44,6 +44,7 @@
 @property float basicZoom;
 @property Territory* selectedTerritory;
 @property NSString* userID;
+@property Territory* lastEmptyTerritory;
 
 
 
@@ -87,6 +88,10 @@
                 if([territory.ownerID isEqualToString: _userID])
                 {
                     polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
+                }
+                else if(territory.owned == 0)
+                {
+                    polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
                 }
                 else
                 {
@@ -151,7 +156,6 @@
 
 - (void) didPan:(UIPanGestureRecognizer*) gestureRecognizer
 {
-    NSLog(@"x: %f",[gestureRecognizer translationInView:mapView_].x);
     if(fabsf([gestureRecognizer translationInView:mapView_].x) + fabsf([gestureRecognizer translationInView:mapView_].x) >= 250)
     {
         [self.hf.view removeFromSuperview];
@@ -319,10 +323,10 @@
         float newlong = round((coordinate.longitude+ _squareSize*1.5  - fmod(coordinate.longitude+ _squareSize*1.5 ,_squareSize) * sign) / _squareSize) * _squareSize- _squareSize;
         
         
+        [territoryList removeObject:_lastEmptyTerritory];
         
-        
-        Territory *newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"" :0 :1000 :1000 :0:0];
-        
+        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"" :0 :1000 :1000 :0:0];
+        _lastEmptyTerritory = newEmptyTerritory;
         [territoryList addObject:newEmptyTerritory];
         
         [self.hf setID:_identifier];
@@ -395,9 +399,6 @@
     
 }
 
--(void)handleSwipeFrom:(UISwipeGestureRecognizer *)_swi {
-    NSLog(@"Swipe received.");
-}
 
 
 

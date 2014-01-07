@@ -51,6 +51,7 @@
 @property NSString* userID;
 @property int pickedPrice;
 @property int wheel;
+@property Territory* pointedTerritory;
 
 
 @end
@@ -74,8 +75,21 @@
     
     _wheel = 0;
     
-    //requete de changement de prix!
     
+    
+    
+    NSString* changePriceURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=changePrice&identifier=";
+    changePriceURL = [changePriceURL stringByAppendingString:_identifier];
+    changePriceURL = [changePriceURL stringByAppendingString:@"&lat="];
+    changePriceURL = [changePriceURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
+    changePriceURL = [changePriceURL stringByAppendingString:@"&lng="];
+    changePriceURL = [changePriceURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
+    changePriceURL = [changePriceURL stringByAppendingString:@"&newPrice=500"];
+    changePriceURL = [changePriceURL stringByAppendingString:[NSString stringWithFormat:@"%d", _pickedPrice]];
+    
+    
+    NSURLRequest *changePriceRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:changePriceURL]];
+    _changePriceConnection = [[NSURLConnection alloc] initWithRequest:changePriceRequest delegate:self];
 }
 
 - (IBAction)askAlliancePress:(id)sender
@@ -268,6 +282,7 @@
 - (void)setAttr:(Territory*)territory;
 {
     self.responseData = [NSMutableData data];
+    _pointedTerritory = territory;
     
     _lat = territory.latitude;
     _lng = territory.longitude;
@@ -461,7 +476,13 @@
     
     if(connection == _changePriceConnection)
     {
-        
+        if([[res valueForKeyPath:@"status"]  isEqual: @"OK"])
+        {
+            _pointedTerritory.sellingPrice = _pickedPrice;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Changed!" message:@"The selling price has successfully been changed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
     }
     
     [[_parentPointer mapView_] clear];
