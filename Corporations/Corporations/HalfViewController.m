@@ -38,6 +38,7 @@
 @property int isSpecialTerritory;
 @property int ownedTime;
 @property int revenue;
+@property int owned;
 @property NSURLConnection* allyConnection;
 @property NSURLConnection* changePriceConnection;
 @property NSURLConnection* buyConnection;
@@ -142,16 +143,33 @@
 }
 
 - (IBAction)buyButton:(id)sender {
+    
     NSString* buyURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=purchaseTerritory&identifier=";
-    buyURL = [buyURL stringByAppendingString:_identifier];
-    buyURL = [buyURL stringByAppendingString:@"&lat="];
-    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
-    buyURL = [buyURL stringByAppendingString:@"&lng="];
-    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
-    buyURL = [buyURL stringByAppendingString:@"&owner="];
-    buyURL = [buyURL stringByAppendingString:_owner];
-    buyURL = [buyURL stringByAppendingString:@"&price="];
-    buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _price]];
+    if(_owned == 1)
+    {
+        buyURL = [buyURL stringByAppendingString:_identifier];
+        buyURL = [buyURL stringByAppendingString:@"&lat="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
+        buyURL = [buyURL stringByAppendingString:@"&lng="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
+        buyURL = [buyURL stringByAppendingString:@"&owner="];
+        buyURL = [buyURL stringByAppendingString:_owner];
+        buyURL = [buyURL stringByAppendingString:@"&price="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _buyingPrice]];
+    }
+    else
+    {
+        NSLog(@"identifier: %@", _identifier);
+        buyURL = [buyURL stringByAppendingString:_identifier];
+        buyURL = [buyURL stringByAppendingString:@"&lat="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lat]];
+        buyURL = [buyURL stringByAppendingString:@"&lng="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
+        buyURL = [buyURL stringByAppendingString:@"&owner=-1"];
+        buyURL = [buyURL stringByAppendingString:@"&price="];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _buyingPrice]];
+        
+    }
     
     NSLog(buyURL);
     
@@ -253,7 +271,7 @@
     
     _lat = territory.latitude;
     _lng = territory.longitude;
-    _price = territory.revenue;
+    _revenue = territory.revenue;
     _owner = territory.ownerID;
     _revenue = territory.revenue;
     _isAllied = territory.isAllied;
@@ -261,6 +279,7 @@
     _sellingPrice = territory.sellingPrice;
     _isSpecialTerritory = territory.isSpecialItem;
     _ownedTime = territory.ownedTime;
+    _owned = territory.owned;
     
     
     self.priceLabel.text = [NSString stringWithFormat:@"selling price : $ %d",_sellingPrice];
@@ -283,6 +302,8 @@
     
     if(_owner == 0)
     {
+        
+        
         self.priceLabel.hidden = true;
         self.alliedLabel.hidden = true;
         self.ownerLabel.hidden = true;
@@ -296,29 +317,29 @@
     }
     else if(_isSpecialTerritory)
     {
-        self.priceLabel.hidden = true;
-        self.totalGainLabel.hidden = true;
-        self.purchasingPriceLabel.hidden = true;
-        
         _buyButton.hidden = true;
+        _captureButton.hidden = false;
         _changePriceButton.hidden = true;
-        _askAllianceButton.hidden = true;
+        _askAllianceButton.hidden = false;
+        
+        self.priceLabel.hidden = true;
+        self.alliedLabel.hidden = false;
+        self.ownerLabel.hidden = false;
+        self.revenueLabel.hidden = false;
+        self.totalGainLabel.hidden = false;
+        self.purchasingPriceLabel.hidden = true;
+
     }
     else if([_owner isEqualToString: _userID])
     {
-        self.alliedLabel.hidden = true;
-        self.ownerLabel.hidden = true;
-        
         _buyButton.hidden = true;
-        _captureButton.hidden = true;
-        _askAllianceButton.hidden = true;
         
         self.priceLabel.hidden = false;
         self.alliedLabel.hidden = true;
         self.ownerLabel.hidden = true;
         self.revenueLabel.hidden = false;
         self.totalGainLabel.hidden = false;
-        self.purchasingPriceLabel = false;
+        self.purchasingPriceLabel.hidden = false;
         
         _changePriceButton.hidden = false;
         _captureButton.hidden = true;
@@ -326,12 +347,17 @@
     }
     else
     {
-        self.totalGainLabel.hidden = true;
-        self.purchasingPriceLabel.hidden = true;
-        
-        
-        _changePriceButton.hidden = true;
+        _buyButton.hidden = false;
         _captureButton.hidden = true;
+        _changePriceButton.hidden = true;
+        _askAllianceButton.hidden = false;
+        
+        self.priceLabel.hidden = false;
+        self.alliedLabel.hidden = false;
+        self.ownerLabel.hidden = false;
+        self.revenueLabel.hidden = false;
+        self.totalGainLabel.hidden = true;
+        self.purchasingPriceLabel.hidden = false;
     }
     
     

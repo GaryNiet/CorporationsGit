@@ -17,6 +17,36 @@
             endingLineNumber = "16"
             landmarkName = "rootViewController"
             landmarkType = "19">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate rootViewController]"
+                  moduleName = "Corporations"
+                  urlString = "file:///Users/garynietlispach/Documents/HES/CorporationsGit/Corporations/Corporations/AppDelegate.h"
+                  timestampString = "410818545.351831"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate setRootViewController:]"
+                  moduleName = "Corporations"
+                  urlString = "file:///Users/garynietlispach/Documents/HES/CorporationsGit/Corporations/Corporations/AppDelegate.h"
+                  timestampString = "410818545.352062"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "31">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Corporations/HalfViewController.m"
-            timestampString = "410629059.164545"
+            timestampString = "410815526.352017"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>

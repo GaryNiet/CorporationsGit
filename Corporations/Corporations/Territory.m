@@ -39,7 +39,7 @@
 }
 
 
-- (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId :(int)isSpecialTerritory :(int)buyingPrice :(int)sellingPrice :(int)ownedTime
+- (id)initWithCoords:(float)lat :(float)lng :(float)width :(int)isAllied :(int)revenue :(NSString*)userId :(int)isSpecialTerritory :(int)buyingPrice :(int)sellingPrice :(int)ownedTime :(int)owned
 {
     self = [super init];
     if (self)
@@ -55,9 +55,12 @@
         _sellingPrice = sellingPrice;
         _isSpecialItem = isSpecialTerritory;
         _ownedTime = ownedTime;
+        _owned = owned;
         
         int sign = (_latitude >= 0) ? 1 : -1;
         _latTop = round((_latitude + _size - fmod(_latitude,_size) * sign) / _size) * _size;
+        
+        
         
         sign = (_longitude >= 0) ? 1 : -1;
         _lngLeft = round((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;

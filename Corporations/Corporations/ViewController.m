@@ -274,21 +274,21 @@
     
     
     //NSDictionary *result = (NSDictionary*)[_terri objectForKey:@"results"];
-    
+    bool flag = false;
     
     for(Territory *territory in territoryList)
     {
         if([territory isInBounds:coordinate.latitude :coordinate.longitude ])
         {
-            
+            flag = true;
             territory.selected = true;
             _selectedTerritory = territory;
             
             
             [self.hf setAttr: territory];
-            NSLog([NSString stringWithFormat:@"ownerID: %@", territory.ownerID]);
-            NSLog([NSString stringWithFormat:@"myID: %@", _facebookID]);
             
+            
+            //juste là pour faire passe des informations
             [self.hf setID:_identifier];
             [self.hf setUserID:_userID];
             
@@ -308,6 +308,26 @@
             
             
         }
+    }
+    
+    if(flag == false)
+    {
+        
+        int sign = (coordinate.latitude >= 0) ? 1 : -1;
+        float newLat = round((coordinate.latitude - _squareSize*1.5 + _squareSize - fmod(coordinate.latitude - _squareSize*1.5,_squareSize) * sign) / _squareSize) * _squareSize;
+        sign = (coordinate.longitude >= 0) ? 1 : -1;
+        float newlong = round((coordinate.longitude+ _squareSize*1.5  - fmod(coordinate.longitude+ _squareSize*1.5 ,_squareSize) * sign) / _squareSize) * _squareSize- _squareSize;
+        
+        
+        
+        
+        Territory *newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"" :0 :1000 :1000 :0:0];
+        
+        [territoryList addObject:newEmptyTerritory];
+        
+        [self.hf setID:_identifier];
+        [self.hf setAttr:newEmptyTerritory];
+        [self.view addSubview:self.hf.view];
     }
 
 
@@ -415,7 +435,7 @@
             NSString *sellingPrice = (NSString*)[key objectForKey:@"sp"] ;
             NSString *ownedTime = (NSString*)[key objectForKey:@"t"] ;
 
-            [territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString :[isSpecialTerritory intValue] :[buyingPrice intValue] :[sellingPrice intValue] :[ownedTime intValue]]];
+            [territoryList addObject:[[Territory alloc]initWithCoords:[latitudeAsString floatValue] :[longitudeAsString floatValue] :(float)_squareSize :[isAlliedAsString intValue] :[revenueAsString intValue] :userIdAsString :[isSpecialTerritory intValue] :[buyingPrice intValue] :[sellingPrice intValue] :[ownedTime intValue]:1]];
             
         }
 
