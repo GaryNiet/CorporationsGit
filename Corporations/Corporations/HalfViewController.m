@@ -9,6 +9,7 @@
 #import "HalfViewController.h"
 #import "ViewController.h"
 #import "Territory.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface HalfViewController()
 
@@ -52,6 +53,7 @@
 @property int pickedPrice;
 @property int wheel;
 @property Territory* pointedTerritory;
+@property (strong, nonatomic) FBProfilePictureView *profilePictureView;
 
 
 @end
@@ -169,7 +171,7 @@
         buyURL = [buyURL stringByAppendingString:@"&owner="];
         buyURL = [buyURL stringByAppendingString:_owner];
         buyURL = [buyURL stringByAppendingString:@"&price="];
-        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _buyingPrice]];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _sellingPrice]];
     }
     else
     {
@@ -181,7 +183,7 @@
         buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", _lng]];
         buyURL = [buyURL stringByAppendingString:@"&owner=-1"];
         buyURL = [buyURL stringByAppendingString:@"&price="];
-        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _buyingPrice]];
+        buyURL = [buyURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _sellingPrice]];
         
     }
     
@@ -240,6 +242,23 @@
     {
         [self.colorArray addObject: [NSString stringWithFormat:@"%d", i]];
     }
+    
+}
+
+- (void)initializeProfilePic {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenWidth = screenSize.width;
+    
+    // Initialize the profile picture
+    self.profilePictureView = [[FBProfilePictureView alloc] init];
+    self.profilePictureView.layer.cornerRadius = 40;
+    // Set the size
+    self.profilePictureView.frame = CGRectMake(0.0, 0.0, 80.0, 80.0);
+    // Show the profile picture for a user
+    self.profilePictureView.profileID = _owner;
+    // Add the profile picture view to the main view
+    [self.view addSubview:self.profilePictureView];
 }
 
 // returns the number of 'columns' to display.
@@ -281,14 +300,29 @@
 
 - (void)setAttr:(Territory*)territory;
 {
+    NSString* url = _owner;
+    [url stringByAppendingString: @"/?fields=name"];
+//    FBRequest *request = [FBRequest requestForGraphPath:url];
+//    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        if([result objectForKey:@"name"] != nil)
+//        {
+//            self.ownerLabel.text = [result objectForKey:@"name"];
+//        }
+//        else
+//        {
+//            self.ownerLabel.text = territory.ownerID;
+//        }
+//    }];
+    
     self.responseData = [NSMutableData data];
+    self.profilePictureView = nil;
+    [self initializeProfilePic];
     _pointedTerritory = territory;
     
     _lat = territory.latitude;
     _lng = territory.longitude;
     _revenue = territory.revenue;
     _owner = territory.ownerID;
-    _revenue = territory.revenue;
     _isAllied = territory.isAllied;
     _buyingPrice = territory.buyingPrice;
     _sellingPrice = territory.sellingPrice;
@@ -296,7 +330,7 @@
     _ownedTime = territory.ownedTime;
     _owned = territory.owned;
     
-    
+    NSLog(@"%d",_buyingPrice);
     self.priceLabel.text = [NSString stringWithFormat:@"selling price : $ %d",_sellingPrice];
     
     if(_isAllied == true)
@@ -308,16 +342,32 @@
         self.alliedLabel.text = @"Is Allied: no";
     }
     
-    self.ownerLabel.text = [NSString stringWithFormat:@"owner : %@", _owner];
     self.revenueLabel.text = [NSString stringWithFormat:@"revenue : $ %d",_revenue];
     self.totalGainLabel.text = [NSString stringWithFormat:@"total gain : $ %d", _ownedTime*_revenue];
-    self.purchasingPriceLabel.text = [NSString stringWithFormat:@"price : $ %d",_buyingPrice];
     
     
     
-    if(_owner == 0)
+    if(_purchasingPriceLabel == 0)
     {
-        
+        self.purchasingPriceLabel.text = @"not for sale";
+    }
+    else
+    {
+        self.purchasingPriceLabel.text = [NSString stringWithFormat:@"price : $ %d",_buyingPrice];
+    }
+    
+//    if(_sellingPrice == 0)
+//    {
+//        self.priceLabel.text = @"not for sale";
+//    }
+//    else
+//    {
+//        self.priceLabel.text = @"selling for:";
+//    }
+    
+    
+    if([_owner  isEqual: @"unknown"])
+    {
         
         self.priceLabel.hidden = true;
         self.alliedLabel.hidden = true;

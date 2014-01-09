@@ -62,7 +62,6 @@
 - (void)createRects{
     
     
-    
     self.rectTab = [NSMutableArray array];
     int latitude = (int)[self mapView_].camera.target.latitude;
     int longitude = (int)[self mapView_].camera.target.longitude;
@@ -291,7 +290,6 @@
             
             [self.hf setAttr: territory];
             
-            
             //juste là pour faire passe des informations
             [self.hf setID:_identifier];
             [self.hf setUserID:_userID];
@@ -325,7 +323,7 @@
         
         [territoryList removeObject:_lastEmptyTerritory];
         
-        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"" :0 :1000 :1000 :0:0];
+        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :1000 :1000 :0:0];
         _lastEmptyTerritory = newEmptyTerritory;
         [territoryList addObject:newEmptyTerritory];
         

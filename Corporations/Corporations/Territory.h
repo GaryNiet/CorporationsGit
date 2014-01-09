@@ -26,6 +26,7 @@
 @property int ownedTime;
 @property int selected;
 @property int owned;
+@property NSString* ownerName;
 
 
 - (id)init;

@@ -7,6 +7,7 @@
 //
 
 #import "Territory.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface Territory()
 -(id)initWithParams:(NSMutableDictionary *)params;
@@ -58,14 +59,20 @@
         _owned = owned;
         
         int sign = (_latitude >= 0) ? 1 : -1;
-        _latTop = round((_latitude + _size - fmod(_latitude,_size) * sign) / _size) * _size;
+        _latTop = lround((_latitude + _size - fmod(_latitude,_size) * sign) / _size) * _size;
         
-        
+        if(_isSpecialItem == 1)
+        {
+            NSLog(@"latitude: %f", _latitude);
+            NSLog(@"longitude: %f", _longitude);
+        }
         
         sign = (_longitude >= 0) ? 1 : -1;
-        _lngLeft = round((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;
+        _lngLeft = lround((_longitude - fmod(_longitude,_size) * sign) / _size) * _size;
         
         
+        
+
         
     }
     return self;
