@@ -15,6 +15,7 @@
 #import "Territory.h"
 #import "ProfileView.h"
 #import "Player.h"
+#import "JourneyViewController.h"
 
 @interface ViewController ()<GMSMapViewDelegate>
 {
@@ -45,6 +46,13 @@
 @property Territory* selectedTerritory;
 @property NSString* userID;
 @property Territory* lastEmptyTerritory;
+@property JourneyViewController* journeyViewController;
+@property CLLocation* currentLocation;
+@property CLLocation* houseLocation;
+@property NSTimer* timer;
+@property int distanceTraveled;
+@property bool hasTraveled;
+@property NSDate* journeyStart;
 
 
 
@@ -141,6 +149,7 @@
     self.hf = [self.sb instantiateViewControllerWithIdentifier:@"halfView"];
     [self.hf setParentPointer:self];
     _mv = [self mapView_];
+    self.distanceTraveled = 0;
      
     self.profileViewController = [self.sb instantiateViewControllerWithIdentifier: @"profileView"];
     self.squareSize = 0.01;
@@ -151,6 +160,27 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget: self action:@selector(didPan:)];
     mapView_.gestureRecognizers = @[panRecognizer];
     
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenHeight = screenSize.height;
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(showJourneyView)
+     forControlEvents:UIControlEventTouchDown];
+    [button setTitle:@"" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0.0, screenHeight - 50.0, 50.0, 50.0);
+    [self.view addSubview:button];
+    
+    
+    
+}
+
+-(void) showJourneyView
+{
+    [self.journeyViewController setAttr:_journeyStart :_distanceTraveled];
+    
+    [self.view addSubview: _journeyViewController.view];
 }
 
 - (void) didPan:(UIPanGestureRecognizer*) gestureRecognizer
@@ -226,11 +256,50 @@
          NSLog(getProfileURL);
          _profileConnection =[[NSURLConnection alloc] initWithRequest:profile delegate:self];
          
+         _currentLocation = mapView_.myLocation;
          
+         
+         _timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
+
+         
+         
+         _journeyViewController = [self.sb instantiateViewControllerWithIdentifier:@"journeyviewcontroller"];
          
      }];
     
 
+}
+
+-(void)distanceManager
+{
+    CLLocation* newLocation = mapView_.myLocation;
+    
+    
+    //if distance from home is freater than 20meters.
+    if([newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:_playerProfile.homeLatitude longitude:_playerProfile.homeLongitude]] > 20)
+    {
+        if(_hasTraveled == false)
+        {
+            _journeyStart = [[NSDate alloc] init];
+        }
+        
+        CLLocation* newLocation = mapView_.myLocation;
+        double distance = [newLocation distanceFromLocation:_currentLocation];
+        _currentLocation = newLocation;
+    
+        _distanceTraveled += distance;
+        NSLog(@"distance traveled: %d", _distanceTraveled);
+        _hasTraveled = true;
+    }
+    else
+    {
+        if(_hasTraveled == true)
+        {
+            //end journey
+            _hasTraveled = false;
+        }
+    }
+    
 }
 
 

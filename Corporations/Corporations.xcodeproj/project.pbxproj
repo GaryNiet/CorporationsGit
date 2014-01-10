@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17182C5E187F4E3200098C6C /* JourneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17182C5D187F4E3200098C6C /* JourneyViewController.m */; };
 		1742FF4C18587566000CAECB /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1742FF4B18587566000CAECB /* HalfViewController.m */; };
 		174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 174BE2B21850704000AD506C /* LoginPageViewController.m */; };
 		174BE2B81850751500AD506C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174BE2B71850751500AD506C /* FacebookSDK.framework */; };
@@ -54,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17182C5C187F4E3200098C6C /* JourneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JourneyViewController.h; sourceTree = "<group>"; };
+		17182C5D187F4E3200098C6C /* JourneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JourneyViewController.m; sourceTree = "<group>"; };
 		1742FF4A18587566000CAECB /* HalfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalfViewController.h; sourceTree = "<group>"; };
 		1742FF4B18587566000CAECB /* HalfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HalfViewController.m; sourceTree = "<group>"; };
 		174BE2B11850704000AD506C /* LoginPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginPageViewController.h; path = ../LoginPageViewController.h; sourceTree = "<group>"; };
@@ -201,6 +204,8 @@
 				17B1672B186AF2E4004EF363 /* ProfileView.m */,
 				17E560F81873110600240A85 /* Player.h */,
 				17E560F91873110600240A85 /* Player.m */,
+				17182C5C187F4E3200098C6C /* JourneyViewController.h */,
+				17182C5D187F4E3200098C6C /* JourneyViewController.m */,
 				17E0B4B7184F3499007D31CF /* Images.xcassets */,
 				17E0B4A6184F3499007D31CF /* Supporting Files */,
 			);
@@ -342,6 +347,7 @@
 				174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */,
 				17E0B4B0184F3499007D31CF /* AppDelegate.m in Sources */,
 				17E0B4AC184F3499007D31CF /* main.m in Sources */,
+				17182C5E187F4E3200098C6C /* JourneyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

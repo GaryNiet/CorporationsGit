@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "Territory.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <UIKit/UIKit.h>
 
 @interface HalfViewController()
 
@@ -57,6 +58,9 @@
 
 
 @end
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 
 @implementation HalfViewController
 
@@ -368,6 +372,7 @@
     
     if([_owner  isEqual: @"unknown"])
     {
+        self.view.backgroundColor = UIColorFromRGB(0x3a3f44);
         
         self.priceLabel.hidden = true;
         self.alliedLabel.hidden = true;
@@ -382,6 +387,8 @@
     }
     else if(_isSpecialTerritory)
     {
+        self.view.backgroundColor = UIColorFromRGB(0x2980b9);
+        
         _buyButton.hidden = true;
         _captureButton.hidden = false;
         _changePriceButton.hidden = true;
@@ -397,6 +404,8 @@
     }
     else if([_owner isEqualToString: _userID])
     {
+        self.view.backgroundColor = UIColorFromRGB(0x399a48);
+        
         _buyButton.hidden = true;
         
         self.priceLabel.hidden = false;
@@ -412,6 +421,8 @@
     }
     else
     {
+        self.view.backgroundColor = UIColorFromRGB(0xdf5d07);
+        
         _buyButton.hidden = false;
         _captureButton.hidden = true;
         _changePriceButton.hidden = true;
