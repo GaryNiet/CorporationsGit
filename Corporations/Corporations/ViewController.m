@@ -50,9 +50,13 @@
 @property CLLocation* currentLocation;
 @property CLLocation* houseLocation;
 @property NSTimer* timer;
+@property NSTimer* updateterritoryTimer;
+@property NSTimer* updateCharacterTimer;
 @property int distanceTraveled;
 @property bool hasTraveled;
 @property NSDate* journeyStart;
+@property UILabel* moneyLabel;
+@property UILabel* revenueLabel;
 
 
 
@@ -172,6 +176,15 @@
     button.frame = CGRectMake(0.0, screenHeight - 50.0, 50.0, 50.0);
     [self.view addSubview:button];
     
+    _moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 30)];
+    _revenueLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 0, 150, 30)];
+    
+    _moneyLabel.text = @"money";
+    _revenueLabel.text = @"revenue";
+    [self.view addSubview:_moneyLabel];
+    [self.view addSubview:_revenueLabel];
+    
+    
     
     
 }
@@ -193,6 +206,31 @@
 }
 
 
+
+- (void)getProfileFromServer
+{
+    NSString* getProfileURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=profile&identifier=";
+    getProfileURL = [getProfileURL stringByAppendingString:self.identifier];
+    NSURLRequest *profile = [NSURLRequest requestWithURL: [NSURL URLWithString:getProfileURL]];
+    NSLog(getProfileURL);
+    _profileConnection =[[NSURLConnection alloc] initWithRequest:profile delegate:self];
+}
+
+- (void)getTerritoriesFromServer
+{
+    NSString* getTerritoriesURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=territories&identifier=";
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:self.identifier];
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&lat="];
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", camera.targetAsCoordinate.latitude]];
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&lng="];
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", camera.targetAsCoordinate.longitude]];
+    getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&limit=1"];
+    
+    self.terri = [NSMutableData data];
+    NSURLRequest *territories = [NSURLRequest requestWithURL: [NSURL URLWithString:getTerritoriesURL]];
+    
+    _territoryConnection =[[NSURLConnection alloc] initWithRequest:territories delegate:self];
+}
 
 - (void)viewDidLoad
 {
@@ -234,32 +272,15 @@
          [[NSURLConnection alloc] initWithRequest:request delegate:self];
          
          
-         NSString* getTerritoriesURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=territories&identifier=";
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:self.identifier];
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&lat="];
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", camera.targetAsCoordinate.latitude]];
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&lng="];
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:[NSString stringWithFormat:@"%.20f", camera.targetAsCoordinate.longitude]];
-         getTerritoriesURL = [getTerritoriesURL stringByAppendingString:@"&limit=1"];
-         
-//         NSLog(getTerritoriesURL);
-         self.terri = [NSMutableData data];
-         NSURLRequest *territories = [NSURLRequest requestWithURL: [NSURL URLWithString:getTerritoriesURL]];
-         
-         _territoryConnection =[[NSURLConnection alloc] initWithRequest:territories delegate:self];
-         
-         
-         
-         NSString* getProfileURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=profile&identifier=";
-         getProfileURL = [getProfileURL stringByAppendingString:self.identifier];
-         NSURLRequest *profile = [NSURLRequest requestWithURL: [NSURL URLWithString:getProfileURL]];
-         NSLog(getProfileURL);
-         _profileConnection =[[NSURLConnection alloc] initWithRequest:profile delegate:self];
+         [self getTerritoriesFromServer];
+         [self getProfileFromServer];
          
          _currentLocation = mapView_.myLocation;
          
          
-         _timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
+         _timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
+         _updateCharacterTimer = [NSTimer scheduledTimerWithTimeInterval:180 target:self selector:@selector(getProfileFromServer) userInfo:nil repeats:YES];
+         _updateterritoryTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(getTerritoriesFromServer) userInfo:nil repeats:YES];
 
          
          
@@ -333,9 +354,11 @@
 
 - (void) mapView: (GMSMapView *) mapView  didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    NSLog(@"latitude: %f", coordinate.latitude);
-    NSLog(@"longitude: %f", coordinate.longitude);
     
+    
+    //juste là pour faire passe des informations
+    [self.hf setID:_identifier];
+    [self.hf setUserID:_userID];
     
     CGPoint point = [mapView_.projection pointForCoordinate:coordinate];
     point.y = point.y + 100;
@@ -357,11 +380,12 @@
             _selectedTerritory = territory;
             
             
+            
+            //à corriger si le temps le permet(solution de secour pour l'image de profil)
+            [self.hf setAttr: territory];
             [self.hf setAttr: territory];
             
-            //juste là pour faire passe des informations
-            [self.hf setID:_identifier];
-            [self.hf setUserID:_userID];
+            
             
             if(territory.latitude == _shownTerritoryLat && territory.longitude == _shownTerritoryLng)
             {
@@ -389,10 +413,16 @@
         sign = (coordinate.longitude >= 0) ? 1 : -1;
         float newlong = round((coordinate.longitude+ _squareSize*1.5  - fmod(coordinate.longitude+ _squareSize*1.5 ,_squareSize) * sign) / _squareSize) * _squareSize- _squareSize;
         
+        if([_lastEmptyTerritory.ownerID isEqualToString:@"unknown"])
+        {
+            [territoryList removeObject:_lastEmptyTerritory];
+        }
+        else
+        {
+            _lastEmptyTerritory = nil;
+        }
         
-        [territoryList removeObject:_lastEmptyTerritory];
-        
-        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :1000 :1000 :0:0];
+        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :0 :0 :0:0];
         _lastEmptyTerritory = newEmptyTerritory;
         [territoryList addObject:newEmptyTerritory];
         
@@ -461,8 +491,8 @@
 - (void)showProfileView
 {
     
-    [_profileViewController displayInfo: _playerProfile];
     [self.view addSubview:self.profileViewController.view];
+    [_profileViewController displayInfo: _playerProfile];
     
 }
 
@@ -481,11 +511,11 @@
     
     if(connection == _territoryConnection)
     {
+        
+        
+        [territoryList removeAllObjects];
+        
         _terri = res;
-        
-        
-        
-        
         NSArray *result = [res objectForKey:@"results"];
         
         for(id key in result)
@@ -532,6 +562,11 @@
             _playerProfile.moneyLimitLvl = [[res valueForKeyPath:@"results.mll"] integerValue];
             _playerProfile.experienceQteLvl = [[res valueForKeyPath:@"results.eqfl"] integerValue];
             _playerProfile.alliancePriceLvl = [[res valueForKeyPath:@"results.apl"] integerValue] ;
+        
+        
+        
+        _moneyLabel.text = [NSString stringWithFormat:@"$%d",_playerProfile.money ];
+        _revenueLabel.text = [NSString stringWithFormat:@"+ $%d",_playerProfile.revenue ];
         
         
         

@@ -54,6 +54,9 @@
     
     _playerPointer = player;
     
+    NSLog(@"max xp: %d", player.experienceQteLvl);
+    NSLog(@"max QTE xp: %d", player.experienceLimitLvl);
+    
     [self.rankLabel setText:[NSString stringWithFormat:@"%d", player.rank]];
     [self.revenueLabel setText:[NSString stringWithFormat:@"%d", player.revenue]];
     //[self.tripMoneyLabel setText:[NSString stringWithFormat:@"%d", player.]];
@@ -64,9 +67,9 @@
     [self.currentMoneyLabel setText:[NSString stringWithFormat:@"%d", player.money]];
     [self.purchasePriceLabel setText:[NSString stringWithFormat:@"%d", player.purchasePriceLvl]];
     [self.purchaseDistanceLabel setText:[NSString stringWithFormat:@"%d", player.purchaseDistanceLvl]];
-    [self.maxExperienceLabel setText:[NSString stringWithFormat:@"%d", player.experienceLimitLvl]];
-    [self.maxMoneyLabel setText:[NSString stringWithFormat:@"%d", player.moneyLimitLvl]];
-    [self.experienceQteLabel setText:[NSString stringWithFormat:@"%d", player.experienceQteLvl]];
+    [self.maxXPLVLLabel setText:[NSString stringWithFormat:@"%d", player.experienceLimitLvl]];
+    [self.maxMoneyLVLLabel setText:[NSString stringWithFormat:@"%d", player.moneyLimitLvl]];
+    [self.xpFoundLVLLabel setText:[NSString stringWithFormat:@"%d", player.experienceQteLvl]];
     [self.dropAlliancePriceLabel setText:[NSString stringWithFormat:@"%d", player.alliancePriceLvl]];
     
 }

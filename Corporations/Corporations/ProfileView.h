@@ -21,9 +21,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentMoneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *purchasePriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *purchaseDistanceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *maxExperienceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *maxMoneyLabel;
-@property (weak, nonatomic) IBOutlet UILabel *experienceQteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dropAlliancePriceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *purchasePriceButton;
 @property (weak, nonatomic) IBOutlet UIButton *purchaseDistanceButton;
@@ -32,6 +29,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *experienceQteButton;
 @property (weak, nonatomic) IBOutlet UIButton *dropAlliancePriceButton;
 @property Player* playerPointer;
+@property (weak, nonatomic) IBOutlet UILabel *maxXPLVLLabel;
+@property (weak, nonatomic) IBOutlet UILabel *maxMoneyLVLLabel;
+@property (weak, nonatomic) IBOutlet UILabel *xpFoundLVLLabel;
 
 
 - (void)displayInfo:(Player*)player;

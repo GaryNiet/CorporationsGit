@@ -69,14 +69,14 @@
     _picker.hidden = true;
     _OKButton.hidden = true;
     _priceLabel.hidden = false;
-    _ownerLabel.hidden = false;
-    _alliedLabel.hidden = false;
+    _ownerLabel.hidden = true;
+    _alliedLabel.hidden = true;
     _revenueLabel.hidden = false;
     _totalGainLabel.hidden = false;
     _purchasingPriceLabel.hidden = false;
-    _captureButton.hidden = false;
-    _buyButton.hidden = false;
-    _askAllianceButton.hidden = false;
+    _captureButton.hidden = true;
+    _buyButton.hidden = true;
+    _askAllianceButton.hidden = true;
     _changePriceButton.hidden = false;
     
     _wheel = 0;
@@ -147,14 +147,14 @@
         _picker.hidden = true;
         _OKButton.hidden = true;
         _priceLabel.hidden = false;
-        _ownerLabel.hidden = false;
-        _alliedLabel.hidden = false;
+        _ownerLabel.hidden = true;
+        _alliedLabel.hidden = true;
         _revenueLabel.hidden = false;
         _totalGainLabel.hidden = false;
         _purchasingPriceLabel.hidden = false;
-        _captureButton.hidden = false;
-        _buyButton.hidden = false;
-        _askAllianceButton.hidden = false;
+        _captureButton.hidden = true;
+        _buyButton.hidden = true;
+        _askAllianceButton.hidden = true;
         _changePriceButton.hidden = false;
         
         _wheel = 0;
@@ -304,19 +304,6 @@
 
 - (void)setAttr:(Territory*)territory;
 {
-    NSString* url = _owner;
-    [url stringByAppendingString: @"/?fields=name"];
-//    FBRequest *request = [FBRequest requestForGraphPath:url];
-//    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//        if([result objectForKey:@"name"] != nil)
-//        {
-//            self.ownerLabel.text = [result objectForKey:@"name"];
-//        }
-//        else
-//        {
-//            self.ownerLabel.text = territory.ownerID;
-//        }
-//    }];
     
     self.responseData = [NSMutableData data];
     self.profilePictureView = nil;
@@ -334,7 +321,6 @@
     _ownedTime = territory.ownedTime;
     _owned = territory.owned;
     
-    NSLog(@"%d",_buyingPrice);
     self.priceLabel.text = [NSString stringWithFormat:@"selling price : $ %d",_sellingPrice];
     
     if(_isAllied == true)
@@ -357,7 +343,7 @@
     }
     else
     {
-        self.purchasingPriceLabel.text = [NSString stringWithFormat:@"price : $ %d",_buyingPrice];
+        self.purchasingPriceLabel.text = [NSString stringWithFormat:@"bought for: $ %d",_buyingPrice];
     }
     
 //    if(_sellingPrice == 0)
@@ -435,6 +421,23 @@
         self.totalGainLabel.hidden = true;
         self.purchasingPriceLabel.hidden = false;
     }
+    
+    
+    NSString* url = _owner;
+    [url stringByAppendingString: @"/?fields=name"];
+    
+    FBRequest *request = [FBRequest requestForGraphPath:url];
+    
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if([result objectForKey:@"name"] != nil)
+        {
+            self.ownerLabel.text = [result objectForKey:@"name"];
+        }
+        else
+        {
+            self.ownerLabel.text = territory.ownerID;
+        }
+    }];
     
     
     
@@ -543,6 +546,9 @@
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Changed!" message:@"The selling price has successfully been changed" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
+            
+            _priceLabel.text = [NSString stringWithFormat:@"sellgin price: %d",_pickedPrice ];
+            
         }
     }
     

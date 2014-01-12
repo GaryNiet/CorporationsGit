@@ -284,7 +284,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Increase max money quantity:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6a4-0B-8vC">
-                                <rect key="frame" x="20" y="368" width="230" height="21"/>
+                                <rect key="frame" x="20" y="367" width="230" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -317,37 +317,37 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTA-BX-hvF">
-                                <rect key="frame" x="222" y="368" width="42" height="21"/>
+                                <rect key="frame" x="235" y="367" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPc-L7-Awn">
-                                <rect key="frame" x="222" y="397" width="42" height="21"/>
+                                <rect key="frame" x="235" y="396" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EdA-OD-aNX">
-                                <rect key="frame" x="222" y="426" width="42" height="21"/>
+                                <rect key="frame" x="235" y="425" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qp-NP-aNU">
-                                <rect key="frame" x="222" y="339" width="42" height="21"/>
+                                <rect key="frame" x="235" y="338" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVr-Xr-RnA">
-                                <rect key="frame" x="222" y="310" width="42" height="21"/>
+                                <rect key="frame" x="235" y="309" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="41f-rU-avc">
-                                <rect key="frame" x="222" y="281" width="42" height="21"/>
+                                <rect key="frame" x="235" y="280" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -443,6 +443,8 @@
                         <outlet property="experienceQteButton" destination="plS-l6-dfU" id="Ueb-nL-NAp"/>
                         <outlet property="maxExperienceButton" destination="1SI-zk-JkP" id="XaA-n1-eaz"/>
                         <outlet property="maxMoneyButton" destination="HoH-19-x2x" id="aGA-sS-R0U"/>
+                        <outlet property="maxMoneyLVLLabel" destination="PTA-BX-hvF" id="h6o-lL-bHd"/>
+                        <outlet property="maxXPLVLLabel" destination="9qp-NP-aNU" id="KtW-AV-g1z"/>
                         <outlet property="purchaseDistanceButton" destination="yx4-jb-PgK" id="HHR-W9-kXe"/>
                         <outlet property="purchaseDistanceLabel" destination="rVr-Xr-RnA" id="IgF-5J-wn7"/>
                         <outlet property="purchasePriceButton" destination="RgH-xa-0ug" id="5wM-XT-Wwj"/>
@@ -452,6 +454,7 @@
                         <outlet property="territoriesOwnedLabel" destination="cIF-6Q-TFa" id="Yb9-ds-ZCv"/>
                         <outlet property="totalGainLabel" destination="BMV-z5-kAb" id="yqF-GG-mCJ"/>
                         <outlet property="tripMoneyLabel" destination="43U-hy-MSH" id="7FM-wk-s7a"/>
+                        <outlet property="xpFoundLVLLabel" destination="MPc-L7-Awn" id="bhe-to-0D1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Gt-7o-cNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
