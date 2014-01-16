@@ -351,6 +351,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(bool)checkBuyable: (CLLocationCoordinate2D)coordinate
+{
+    
+    
+    for(Territory *territory in territoryList)
+    {
+        if([territory isInBounds:coordinate.latitude + _squareSize :coordinate.longitude]
+           || [territory isInBounds:coordinate.latitude - _squareSize :coordinate.longitude]
+           || [territory isInBounds:coordinate.latitude :coordinate.longitude + _squareSize]
+           || [territory isInBounds:coordinate.latitude :coordinate.longitude - _squareSize])
+        {
+            if(territory.isAllied || [territory.ownerID isEqualToString:_userID])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 
 - (void) mapView: (GMSMapView *) mapView  didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
@@ -380,10 +400,14 @@
             _selectedTerritory = territory;
             
             
-            
+            bool buyable = [self checkBuyable: coordinate];
+            if(territory.sellingPrice == 0)
+            {
+                buyable = false;
+            }
             //à corriger si le temps le permet(solution de secour pour l'image de profil)
-            [self.hf setAttr: territory];
-            [self.hf setAttr: territory];
+            [self.hf setAttr: territory: buyable];
+            [self.hf setAttr: territory: buyable];
             
             
             
@@ -422,12 +446,14 @@
             _lastEmptyTerritory = nil;
         }
         
-        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :0 :0 :0:0];
+        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :0 :1000 :0:0];
         _lastEmptyTerritory = newEmptyTerritory;
         [territoryList addObject:newEmptyTerritory];
         
+        bool buyable = [self checkBuyable: coordinate];
+        
         [self.hf setID:_identifier];
-        [self.hf setAttr:newEmptyTerritory];
+        [self.hf setAttr:newEmptyTerritory: buyable];
         [self.view addSubview:self.hf.view];
     }
 

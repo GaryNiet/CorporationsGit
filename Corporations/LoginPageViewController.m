@@ -14,6 +14,7 @@
 
 @property bool loginState;
 -(IBAction)buttonClickHandler:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *LogoImage;
 
 @end
 
@@ -47,6 +48,7 @@
     [loginView sizeToFit];
     
     loginView.delegate = self;
+    [_LogoImage setImage:[UIImage imageNamed:@"logo.png" ]];
     
     
 }

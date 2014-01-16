@@ -302,7 +302,7 @@
 }
 
 
-- (void)setAttr:(Territory*)territory;
+- (void)setAttr:(Territory*)territory :(bool)buyable;
 {
     
     self.responseData = [NSMutableData data];
@@ -360,12 +360,13 @@
     {
         self.view.backgroundColor = UIColorFromRGB(0x3a3f44);
         
-        self.priceLabel.hidden = true;
+        self.priceLabel.hidden = false;
         self.alliedLabel.hidden = true;
         self.ownerLabel.hidden = true;
         self.revenueLabel.hidden = true;
         self.totalGainLabel.hidden = true;
-        
+        self.purchasingPriceLabel.hidden = true;
+        self.buyButton.hidden = false;
         _changePriceButton.hidden = true;
         _captureButton.hidden = true;
         _askAllianceButton.hidden = true;
@@ -419,7 +420,13 @@
         self.ownerLabel.hidden = false;
         self.revenueLabel.hidden = false;
         self.totalGainLabel.hidden = true;
-        self.purchasingPriceLabel.hidden = false;
+        self.purchasingPriceLabel.hidden = true;
+    }
+    
+    if(!buyable)
+    {
+        self.buyButton.hidden = true;
+        self.priceLabel.text = @"not for sale";
     }
     
     

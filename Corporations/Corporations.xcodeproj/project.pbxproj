@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17182C5E187F4E3200098C6C /* JourneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17182C5D187F4E3200098C6C /* JourneyViewController.m */; };
+		173FF4EB188890D400A0F607 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 173FF4EA188890D400A0F607 /* logo.png */; };
 		1742FF4C18587566000CAECB /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1742FF4B18587566000CAECB /* HalfViewController.m */; };
 		174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 174BE2B21850704000AD506C /* LoginPageViewController.m */; };
 		174BE2B81850751500AD506C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174BE2B71850751500AD506C /* FacebookSDK.framework */; };
@@ -57,6 +58,7 @@
 /* Begin PBXFileReference section */
 		17182C5C187F4E3200098C6C /* JourneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JourneyViewController.h; sourceTree = "<group>"; };
 		17182C5D187F4E3200098C6C /* JourneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JourneyViewController.m; sourceTree = "<group>"; };
+		173FF4EA188890D400A0F607 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		1742FF4A18587566000CAECB /* HalfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalfViewController.h; sourceTree = "<group>"; };
 		1742FF4B18587566000CAECB /* HalfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HalfViewController.m; sourceTree = "<group>"; };
 		174BE2B11850704000AD506C /* LoginPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginPageViewController.h; path = ../LoginPageViewController.h; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				17E0B4A7184F3499007D31CF /* Corporations-Info.plist */,
+				173FF4EA188890D400A0F607 /* logo.png */,
 				17E0B4A8184F3499007D31CF /* InfoPlist.strings */,
 				17E0B4AB184F3499007D31CF /* main.m */,
 				17E0B4AD184F3499007D31CF /* Corporations-Prefix.pch */,
@@ -288,6 +291,13 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Gary Nietlispach";
 				TargetAttributes = {
+					17E0B49B184F3499007D31CF = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
+					};
 					17E0B4BC184F3499007D31CF = {
 						TestTargetID = 17E0B49B184F3499007D31CF;
 					};
@@ -318,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17E0B4B8184F3499007D31CF /* Images.xcassets in Resources */,
+				173FF4EB188890D400A0F607 /* logo.png in Resources */,
 				17E0B4AA184F3499007D31CF /* InfoPlist.strings in Resources */,
 				17E0B4B3184F3499007D31CF /* Main.storyboard in Resources */,
 				17E0B4D7184F34D9007D31CF /* GoogleMaps.bundle in Resources */,

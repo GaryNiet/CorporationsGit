@@ -12,7 +12,7 @@
 
 @interface HalfViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate>
 
-- (void)setAttr: (Territory*)territory;
+- (void)setAttr: (Territory*)territory :(bool)buyable;
 -(void)setID:(NSString*)ID;
 -(void)setUserID: (NSString*)userID;
 -(void)setParentPointer :(ViewController*)vc;
