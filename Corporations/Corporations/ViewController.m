@@ -53,10 +53,14 @@
 @property NSTimer* updateterritoryTimer;
 @property NSTimer* updateCharacterTimer;
 @property int distanceTraveled;
+@property int xpEarnedOnLastTravel;
+@property int moneyEarnedOnLastTravel;
 @property bool hasTraveled;
 @property NSDate* journeyStart;
 @property UILabel* moneyLabel;
 @property UILabel* revenueLabel;
+@property UIImageView* tripImageView;
+@property int stupidCounter;
 
 
 
@@ -74,67 +78,69 @@
 - (void)createRects{
     
     
-    self.rectTab = [NSMutableArray array];
-    int latitude = (int)[self mapView_].camera.target.latitude;
-    int longitude = (int)[self mapView_].camera.target.longitude;
-    
-    
-    
-    for(Territory *territory in territoryList)
-    {
-        if(territory.latitude<latitude+10 && territory.latitude > latitude-10)
+        
+        self.rectTab = [NSMutableArray array];
+        int latitude = (int)[self mapView_].camera.target.latitude;
+        int longitude = (int)[self mapView_].camera.target.longitude;
+        
+        
+        
+        for(Territory *territory in territoryList)
         {
-            if(territory.longitude<longitude+10 && territory.longitude > longitude-10)
+            if(territory.latitude<latitude+10 && territory.latitude > latitude-10)
             {
-                
-                GMSMutablePath *rect = [GMSMutablePath path];
-                [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude, territory.longitude + _squareSize)];
-                [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude + _squareSize, territory.longitude + _squareSize)];
-                [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude + _squareSize, territory.longitude)];
-                [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude, territory.longitude)];
-                
-                GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
-                polygon.tappable = false;
-                
-                if([territory.ownerID isEqualToString: _userID])
+                if(territory.longitude<longitude+10 && territory.longitude > longitude-10)
                 {
-                    polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
-                }
-                else if(territory.owned == 0)
-                {
-                    polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
-                }
-                else
-                {
-                    if(territory.isAllied == 1)
+                    
+                    GMSMutablePath *rect = [GMSMutablePath path];
+                    [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude, territory.longitude + _squareSize)];
+                    [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude + _squareSize, territory.longitude + _squareSize)];
+                    [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude + _squareSize, territory.longitude)];
+                    [rect addCoordinate:CLLocationCoordinate2DMake(territory.latitude, territory.longitude)];
+                    
+                    GMSPolygon *polygon = [GMSPolygon polygonWithPath:rect];
+                    polygon.tappable = false;
+                    
+                    if([territory.ownerID isEqualToString: _userID])
                     {
-                        polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                        polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
+                    }
+                    else if(territory.owned == 0)
+                    {
+                        polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.05];
                     }
                     else
                     {
-                        polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                        if(territory.isAllied == 1)
+                        {
+                            polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                        }
+                        else
+                        {
+                            polygon.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.15];
+                        }
                     }
+                    
+                    if(territory.selected == true)
+                    {
+                        polygon.strokeColor = [UIColor redColor];
+                        polygon.strokeWidth = 8;
+                    }
+                    else
+                    {
+                        polygon.strokeColor = [UIColor blackColor];
+                        polygon.strokeWidth = 2;
+                    }
+                    
+                    
+                    polygon.map = [self mapView_];
+                    
                 }
-                
-                if(territory.selected == true)
-                {
-                    polygon.strokeColor = [UIColor redColor];
-                    polygon.strokeWidth = 8;
-                }
-                else
-                {
-                    polygon.strokeColor = [UIColor blackColor];
-                    polygon.strokeWidth = 2;
-                }
-                
-                
-                polygon.map = [self mapView_];
-                
             }
+            
         }
-
-    }
-
+    
+    
 }
 
 - (void)loadView {
@@ -154,6 +160,8 @@
     [self.hf setParentPointer:self];
     _mv = [self mapView_];
     self.distanceTraveled = 0;
+    self.moneyEarnedOnLastTravel = 0;
+    self.xpEarnedOnLastTravel = 0;
      
     self.profileViewController = [self.sb instantiateViewControllerWithIdentifier: @"profileView"];
     self.squareSize = 0.01;
@@ -176,13 +184,18 @@
     button.frame = CGRectMake(0.0, screenHeight - 50.0, 50.0, 50.0);
     [self.view addSubview:button];
     
-    _moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 30)];
-    _revenueLabel = [[UILabel alloc]initWithFrame:CGRectMake(150, 0, 150, 30)];
+    _moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 30)];
+    _revenueLabel = [[UILabel alloc]initWithFrame:CGRectMake(120, 0, 150, 30)];
     
     _moneyLabel.text = @"money";
     _revenueLabel.text = @"revenue";
     [self.view addSubview:_moneyLabel];
     [self.view addSubview:_revenueLabel];
+    
+    UIImageView *tripImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, screenHeight-50, 50, 50)];
+    tripImage.image = [UIImage imageNamed:@"trips_icon.png"];
+    [self.view addSubview:tripImage];
+    self.stupidCounter = 50;
     
     
     
@@ -191,7 +204,12 @@
 
 -(void) showJourneyView
 {
-    [self.journeyViewController setAttr:_journeyStart :_distanceTraveled];
+    if(_hasTraveled == false)
+    {
+        _journeyStart = [[NSDate alloc] init];
+    }
+    [self.journeyViewController setAttr:_journeyStart :_distanceTraveled :_xpEarnedOnLastTravel :_moneyEarnedOnLastTravel];
+    
     
     [self.view addSubview: _journeyViewController.view];
 }
@@ -296,7 +314,7 @@
     CLLocation* newLocation = mapView_.myLocation;
     
     
-    //if distance from home is freater than 20meters.
+    //if distance from home is greater than 20meters.
     if([newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:_playerProfile.homeLatitude longitude:_playerProfile.homeLongitude]] > 20)
     {
         if(_hasTraveled == false)
@@ -309,8 +327,11 @@
         _currentLocation = newLocation;
     
         _distanceTraveled += distance;
+        _xpEarnedOnLastTravel += distance/1000;
+        _moneyEarnedOnLastTravel += distance/10;
         NSLog(@"distance traveled: %d", _distanceTraveled);
         _hasTraveled = true;
+        
     }
     else
     {
@@ -471,9 +492,15 @@
 
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {
+    _stupidCounter++;
+    if(_stupidCounter % 100 == 0)
+    {
+        [[self mapView_] clear];
+        
+        
+        [self createRects];
+    }
     
-    [[self mapView_] clear];
-    [self createRects];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -518,7 +545,7 @@
 {
     
     [self.view addSubview:self.profileViewController.view];
-    [_profileViewController displayInfo: _playerProfile];
+    [_profileViewController displayInfo: _playerProfile :self];
     
 }
 
@@ -572,7 +599,7 @@
         
 
             _userID = (NSString*)[res valueForKeyPath:@"results.id"];
-            _playerProfile.userID = (NSString*)[res valueForKeyPath:@"results.id"] ;
+            _playerProfile.userID = self.identifier;
             _playerProfile.allianceCount = [[res valueForKeyPath:@"results.na"] integerValue];
             _playerProfile.territoryCount = [[res valueForKeyPath:@"results.nt"] integerValue] ;
             _playerProfile.rank = [[res valueForKeyPath:@"results.r"] integerValue] ;

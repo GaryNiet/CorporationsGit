@@ -20,17 +20,14 @@
     return self;
 }
 
+
 - (void)updateDataBase
 {
     
     NSString* updateURL = @"https://corporation-perezapp.rhcloud.com/api.php?what=updateProfile&identifier=";
     updateURL = [updateURL stringByAppendingString:self.userID];
-    updateURL = [updateURL stringByAppendingString:@"&currentMoney="];
-    updateURL = [updateURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _money]];
-    updateURL = [updateURL stringByAppendingString:@"&totalGain="];
-    updateURL = [updateURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _totalGain]];
-    updateURL = [updateURL stringByAppendingString:@"&experiencePoints="];
-    updateURL = [updateURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _xp]];
+    updateURL = [updateURL stringByAppendingString:@"&experiencePointsPrice="];
+    updateURL = [updateURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", 1]];
     updateURL = [updateURL stringByAppendingString:@"&purchasePriceSkillLevel="];
     updateURL = [updateURL stringByAppendingString:[NSString stringWithFormat:@"%.20d", _purchasePriceLvl]];
     updateURL = [updateURL stringByAppendingString:@"&purchaseDistanceSkillLevel="];

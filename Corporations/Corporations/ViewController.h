@@ -16,6 +16,6 @@
 
 - (void)setMapView_:(GMSMapView *)newValue;
 - (NSMutableArray *)territoryList;
-
+- (void)getProfileFromServer;
 - (void)setTerritoryList:(NSMutableArray *)newValue;
 @end

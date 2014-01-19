@@ -12,6 +12,7 @@
 		1742FF4C18587566000CAECB /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1742FF4B18587566000CAECB /* HalfViewController.m */; };
 		174BE2B31850704000AD506C /* LoginPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 174BE2B21850704000AD506C /* LoginPageViewController.m */; };
 		174BE2B81850751500AD506C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174BE2B71850751500AD506C /* FacebookSDK.framework */; };
+		174EB31D188BD2C300816EAE /* trips_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 174EB31C188BD2C300816EAE /* trips_icon.png */; };
 		177E553E1862F22F00548BFD /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = 177E553D1862F22F00548BFD /* Territory.m */; };
 		17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B1672B186AF2E4004EF363 /* ProfileView.m */; };
 		17E0B4A0184F3499007D31CF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B49F184F3499007D31CF /* Foundation.framework */; };
@@ -64,6 +65,7 @@
 		174BE2B11850704000AD506C /* LoginPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginPageViewController.h; path = ../LoginPageViewController.h; sourceTree = "<group>"; };
 		174BE2B21850704000AD506C /* LoginPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginPageViewController.m; path = ../LoginPageViewController.m; sourceTree = "<group>"; };
 		174BE2B71850751500AD506C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		174EB31C188BD2C300816EAE /* trips_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trips_icon.png; sourceTree = "<group>"; };
 		177E553C1862F22F00548BFD /* Territory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Territory.h; sourceTree = "<group>"; };
 		177E553D1862F22F00548BFD /* Territory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Territory.m; sourceTree = "<group>"; };
 		17B1672A186AF2E4004EF363 /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		17E0B4A6184F3499007D31CF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				174EB31C188BD2C300816EAE /* trips_icon.png */,
 				17E0B4A7184F3499007D31CF /* Corporations-Info.plist */,
 				173FF4EA188890D400A0F607 /* logo.png */,
 				17E0B4A8184F3499007D31CF /* InfoPlist.strings */,
@@ -330,6 +333,7 @@
 				17E0B4B8184F3499007D31CF /* Images.xcassets in Resources */,
 				173FF4EB188890D400A0F607 /* logo.png in Resources */,
 				17E0B4AA184F3499007D31CF /* InfoPlist.strings in Resources */,
+				174EB31D188BD2C300816EAE /* trips_icon.png in Resources */,
 				17E0B4B3184F3499007D31CF /* Main.storyboard in Resources */,
 				17E0B4D7184F34D9007D31CF /* GoogleMaps.bundle in Resources */,
 			);

@@ -15,6 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *tripTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 
--(void)setAttr :(NSDate*)journeyStartDate :(int)journeyDistance;
+-(void)setAttr :(NSDate*)journeyStartDate :(int)journeyDistance :(int)journeyMoney :(int)journeyXP;
 
 @end

@@ -35,22 +35,6 @@
 	
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    NSArray *gradientColors = [NSArray arrayWithObjects:(id) [UIColor redColor].CGColor, [UIColor yellowColor].CGColor, nil];
-    
-    CGFloat gradientLocations[] = {0, 0.50, 1};
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) gradientColors, gradientLocations);
-    
-    CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-    CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-    
-    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
-    CGGradientRelease(gradient);
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -58,9 +42,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setAttr:(NSDate *)journeyStartDate :(int)journeyDistance
+-(void)setAttr:(NSDate *)journeyStartDate :(int)journeyDistance :(int)journeyMoney :(int)journeyXP;
 {
-    _distanceLabel.text = [NSString stringWithFormat:@"%d",journeyDistance];
+    
     
     
     NSCalendar *gregorian = [[NSCalendar alloc]
@@ -80,6 +64,10 @@
     NSString* timeString = [NSString stringWithFormat:@"%dh %dm", hours, minutes];
     
     _tripTimeLabel.text = timeString;
+    
+    _distanceLabel.text = [NSString stringWithFormat:@"%d",journeyDistance];
+    _experienceEarnedLabel.text = [NSString stringWithFormat:@"%d",journeyXP];
+    _moneyEarnedLabel.text = [NSString stringWithFormat:@"%d",journeyMoney];
 }
 
 

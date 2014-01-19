@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Player.h"
+#import "ViewController.h"
 
 @interface ProfileView : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -34,6 +35,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *xpFoundLVLLabel;
 
 
-- (void)displayInfo:(Player*)player;
+- (void)displayInfo:(Player*)player :(ViewController*)parent;
 
 @end

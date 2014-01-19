@@ -407,6 +407,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="dropPurchasePriceButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="u4e-uy-NPI"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="plS-l6-dfU">
                                 <rect key="frame" x="272" y="393" width="30" height="30"/>
@@ -414,6 +417,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="increaseXPQteFoundButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="CSW-4k-FUp"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xsp-dg-zof">
                                 <rect key="frame" x="272" y="422" width="30" height="30"/>
@@ -421,6 +427,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="dropAlliancePriceButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="sBs-I2-axb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1SI-zk-JkP">
                                 <rect key="frame" x="272" y="335" width="30" height="30"/>
@@ -428,6 +437,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="increaseMaxExperienceEarnedQteButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="WuE-85-buE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HoH-19-x2x">
                                 <rect key="frame" x="272" y="364" width="30" height="30"/>
@@ -435,6 +447,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="increaseMaxMoneyEarnedButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="fPe-gR-Pd6"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yx4-jb-PgK">
                                 <rect key="frame" x="272" y="306" width="30" height="30"/>
@@ -442,6 +457,9 @@
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="increasePurchaseDistanceButtonPressed:" destination="S14-0u-uwX" eventType="touchUpInside" id="aOZ-ED-FPZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

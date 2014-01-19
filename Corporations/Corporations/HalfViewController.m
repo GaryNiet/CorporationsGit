@@ -55,6 +55,7 @@
 @property int wheel;
 @property Territory* pointedTerritory;
 @property (strong, nonatomic) FBProfilePictureView *profilePictureView;
+@property ViewController* viewController;
 
 
 @end
@@ -121,6 +122,8 @@
     
     NSURLRequest *allyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:allyURL]];
     _allyConnection = [[NSURLConnection alloc] initWithRequest:allyRequest delegate:self];
+    
+    [_parentPointer getProfileFromServer];
     
 }
 - (IBAction)changeSalePrice:(id)sender
@@ -304,7 +307,6 @@
 
 - (void)setAttr:(Territory*)territory :(bool)buyable;
 {
-    
     self.responseData = [NSMutableData data];
     self.profilePictureView = nil;
     [self initializeProfilePic];
@@ -385,7 +387,7 @@
         self.alliedLabel.hidden = false;
         self.ownerLabel.hidden = false;
         self.revenueLabel.hidden = false;
-        self.totalGainLabel.hidden = false;
+        self.totalGainLabel.hidden = true;
         self.purchasingPriceLabel.hidden = true;
 
     }
@@ -513,6 +515,8 @@
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"transaction OK" message:@"You now own a new territory" delegate:self cancelButtonTitle:@"OK"
                                                           otherButtonTitles:nil];
                     [alert show];
+                    
+                    
                 }
             }
         }
@@ -526,6 +530,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"The owner has changed" message:@"You weren't fast enough and somebody else grabbed this territory" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
+        [_parentPointer getProfileFromServer];
     }
     
     if(connection == _captureConnection)
@@ -543,6 +548,7 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Captured!" message:@"The territory was successfully captured" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
+        [_parentPointer getProfileFromServer];
     }
     
     if(connection == _changePriceConnection)
