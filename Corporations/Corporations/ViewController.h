@@ -18,4 +18,5 @@
 - (NSMutableArray *)territoryList;
 - (void)getProfileFromServer;
 - (void)setTerritoryList:(NSMutableArray *)newValue;
+-(NSString*)getIdentifier;
 @end

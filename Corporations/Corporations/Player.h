@@ -26,8 +26,9 @@
 @property int moneyLimitLvl;
 @property int experienceQteLvl;
 @property int alliancePriceLvl;
+@property int totalMoneyEarnedFromTravel;
 
-- (void)updateDataBase;
+- (void)updateDataBase: (int)xpCost;
 
 
 @end

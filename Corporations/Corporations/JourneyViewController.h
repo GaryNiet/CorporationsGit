@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Player.h"
 
 @interface JourneyViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;

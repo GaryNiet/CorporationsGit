@@ -8,6 +8,7 @@
 
 #import "ProfileView.h"
 #import "Player.h"
+#import "LeaderBoard.h"
 
 @interface ProfileView ()
 @property ViewController* vc;
@@ -17,6 +18,7 @@
 @property UIAlertView* alert4;
 @property UIAlertView* alert5;
 @property UIAlertView* alert6;
+@property int xpCost;
 
 @end
 
@@ -29,6 +31,14 @@
         // Custom initialization
     }
     return self;
+}
+- (IBAction)leaderBoardButtonPressed:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LeaderBoard *lb = [sb instantiateViewControllerWithIdentifier:@"leaderboard"];
+    [lb setIdentifier:_vc.getIdentifier];
+    
+    [self.view addSubview:lb.view];
+    
 }
 
 - (void)viewDidLoad
@@ -154,7 +164,7 @@
 -(void)backToMainView
 {
     [self.view removeFromSuperview];
-    [_playerPointer updateDataBase];
+    [_playerPointer updateDataBase: _xpCost];
     [_vc getProfileFromServer];
     
 }
@@ -170,12 +180,13 @@
     _vc = parent;
     _playerPointer = player;
     
+    
     NSLog(@"max xp: %d", player.experienceQteLvl);
     NSLog(@"max QTE xp: %d", player.experienceLimitLvl);
     
     [self.rankLabel setText:[NSString stringWithFormat:@"%d", player.rank]];
     [self.revenueLabel setText:[NSString stringWithFormat:@"%d", player.revenue]];
-    //[self.tripMoneyLabel setText:[NSString stringWithFormat:@"%d", player.]];
+    [self.tripMoneyLabel setText:[NSString stringWithFormat:@"%d", player.totalMoneyEarnedFromTravel]];
     [self.totalGainLabel setText:[NSString stringWithFormat:@"%d", player.totalGain]];
     [self.alliesLabel setText:[NSString stringWithFormat:@"%d", player.allianceCount]];
     [self.territoriesOwnedLabel setText:[NSString stringWithFormat:@"%d", player.territoryCount]];

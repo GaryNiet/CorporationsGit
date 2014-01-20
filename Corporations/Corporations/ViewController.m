@@ -296,7 +296,7 @@
          _currentLocation = mapView_.myLocation;
          
          
-         _timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
+         _timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
          _updateCharacterTimer = [NSTimer scheduledTimerWithTimeInterval:180 target:self selector:@selector(getProfileFromServer) userInfo:nil repeats:YES];
          _updateterritoryTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(getTerritoriesFromServer) userInfo:nil repeats:YES];
 
@@ -320,6 +320,9 @@
         if(_hasTraveled == false)
         {
             _journeyStart = [[NSDate alloc] init];
+            _moneyEarnedOnLastTravel = 0;
+            _distanceTraveled = 0;
+            _xpEarnedOnLastTravel = 0;
         }
         
         CLLocation* newLocation = mapView_.myLocation;
@@ -339,6 +342,43 @@
         {
             //end journey
             _hasTraveled = false;
+            
+            
+            NSCalendar *gregorian = [[NSCalendar alloc]
+                                     initWithCalendarIdentifier:NSGregorianCalendar];
+            
+            unsigned int unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit;
+            
+            
+            NSDateComponents *components = [gregorian components:unitFlags
+                                                        fromDate:_journeyStart
+                                                          toDate:[[NSDate alloc] init] options:0];
+           
+            
+            NSInteger hours = [components hour];
+            NSInteger minutes = [components minute];
+            
+            
+            
+            NSString* uploadJourney = @"https://corporation-perezapp.rhcloud.com/api.php?what=uploadTrip&identifier=";
+            uploadJourney = [uploadJourney stringByAppendingString:self.identifier];
+            uploadJourney = [uploadJourney stringByAppendingString:@"&distance="];
+            uploadJourney = [uploadJourney stringByAppendingString:[NSString stringWithFormat:@"%.20d", _distanceTraveled]];
+            uploadJourney = [uploadJourney stringByAppendingString:@"&secondes="];
+            uploadJourney = [uploadJourney stringByAppendingString:[NSString stringWithFormat:@"%.20d", 360*hours + 60*minutes]];
+            uploadJourney = [uploadJourney stringByAppendingString:@"&date=0"];
+            
+            NSLog(uploadJourney);
+            
+            NSURLRequest *uploadJourneyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:uploadJourney]];
+            
+            _playerProfile.xp += _xpEarnedOnLastTravel;
+            _playerProfile.money += _moneyEarnedOnLastTravel;
+            
+            [_playerProfile updateDataBase :0];
+            
+            
+            [[NSURLConnection alloc] initWithRequest:uploadJourneyRequest delegate:self];
         }
     }
     
@@ -615,6 +655,7 @@
             _playerProfile.moneyLimitLvl = [[res valueForKeyPath:@"results.mll"] integerValue];
             _playerProfile.experienceQteLvl = [[res valueForKeyPath:@"results.eqfl"] integerValue];
             _playerProfile.alliancePriceLvl = [[res valueForKeyPath:@"results.apl"] integerValue] ;
+            _playerProfile.totalMoneyEarnedFromTravel = [[res valueForKeyPath:@"results.tme"] integerValue];
         
         
         
@@ -651,6 +692,10 @@
 
 - (void)setTerritoryList:(NSMutableArray *)newValue {
     territoryList = newValue;
+}
+-(NSString*)getIdentifier
+{
+    return _identifier;
 }
 
 @end
