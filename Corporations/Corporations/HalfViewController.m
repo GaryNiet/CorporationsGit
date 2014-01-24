@@ -376,7 +376,7 @@
     }
     else if(_isSpecialTerritory)
     {
-        self.view.backgroundColor = UIColorFromRGB(0x2980b9);
+        self.view.backgroundColor = UIColorFromRGB(0x54aeeb);
         
         _buyButton.hidden = true;
         _captureButton.hidden = false;
@@ -423,7 +423,13 @@
         self.revenueLabel.hidden = false;
         self.totalGainLabel.hidden = true;
         self.purchasingPriceLabel.hidden = true;
+        
+        if (territory.isAllied) {
+            self.view.backgroundColor = UIColorFromRGB(0x2980b9);
+        }
     }
+    
+    
     
     if(!buyable)
     {
