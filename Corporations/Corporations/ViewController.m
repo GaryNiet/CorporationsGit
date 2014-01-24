@@ -103,7 +103,7 @@
                     
                     if([territory.ownerID isEqualToString: _userID])
                     {
-                        polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
+                        polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
                     }
                     else if(territory.owned == 0)
                     {
@@ -113,7 +113,7 @@
                     {
                         if(territory.isAllied == 1)
                         {
-                            polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.15];
+                            polygon.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.15];
                         }
                         else
                         {
@@ -131,7 +131,19 @@
                         polygon.strokeColor = [UIColor blackColor];
                         polygon.strokeWidth = 2;
                     }
-                    
+                    if(territory.isSpecialItem)
+                    {
+                        if([territory.ownerID isEqualToString: _userID])
+                        {
+                            polygon.strokeWidth = 10;
+                            polygon.fillColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.25];
+                        }
+                        else{
+                            polygon.strokeWidth = 10;
+                            polygon.fillColor = [UIColor colorWithRed:0 green:0.5 blue:0.5 alpha:0.25];
+                        }
+                        
+                    }
                     
                     polygon.map = [self mapView_];
                     
