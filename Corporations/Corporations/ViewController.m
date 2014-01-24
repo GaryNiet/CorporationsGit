@@ -140,6 +140,11 @@
             
         }
     
+    CLLocationCoordinate2D position = CLLocationCoordinate2DMake(47.1552, 7.0026);
+    GMSMarker *marker = [GMSMarker markerWithPosition:position];
+    marker.title = @"Home";
+    marker.map = mapView_;
+    
     
 }
 
@@ -147,13 +152,21 @@
     // Create a GMSCameraPosition that tells the map to display the
     // coordinate -33.86,151.20 at zoom level 6.s
     _basicZoom = 12.0;
+    
     camera = [GMSCameraPosition cameraWithLatitude:47.048878
                                          longitude:6.816487
                                               zoom:_basicZoom];
+    
     [self setMapView_: [GMSMapView mapWithFrame:CGRectZero camera:camera]];
     [self mapView_].myLocationEnabled = YES;
     [self mapView_].delegate = self;
     self.view = [self mapView_];
+    
+    
+    
+    
+    
+    
     self.isJustMap = true;
     self.sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     self.hf = [self.sb instantiateViewControllerWithIdentifier:@"halfView"];
@@ -208,10 +221,12 @@
     {
         _journeyStart = [[NSDate alloc] init];
     }
-    [self.journeyViewController setAttr:_journeyStart :_distanceTraveled :_xpEarnedOnLastTravel :_moneyEarnedOnLastTravel];
     
     
     [self.view addSubview: _journeyViewController.view];
+    
+    
+    [self.journeyViewController setAttr:_journeyStart :_distanceTraveled :_xpEarnedOnLastTravel :_moneyEarnedOnLastTravel];
 }
 
 - (void) didPan:(UIPanGestureRecognizer*) gestureRecognizer
@@ -254,6 +269,7 @@
 {
     [super viewDidLoad];
     [self.view setMultipleTouchEnabled:YES];
+    
     
     
     
@@ -303,6 +319,12 @@
          
          
          _journeyViewController = [self.sb instantiateViewControllerWithIdentifier:@"journeyviewcontroller"];
+         
+         GMSCameraUpdate *pos = [GMSCameraUpdate setTarget:CLLocationCoordinate2DMake( mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
+         [mapView_ animateWithCameraUpdate:pos];
+         
+         
+         
          
      }];
     
@@ -433,6 +455,33 @@
 }
 
 
+- (void)checkDistanceFromHome:(int *)territoryPrice_p newLat:(float)newLat newlong:(float)newlong
+{
+    if(newLat < _playerProfile.homeLatitude)
+    {
+        if (_playerProfile.homeLatitude - _playerProfile.purchaseDistanceLvl*20*_squareSize > newLat) {
+            *territoryPrice_p = 0;
+        }
+    }
+    else{
+        if (_playerProfile.homeLatitude + _playerProfile.purchaseDistanceLvl*20*_squareSize < newLat) {
+            *territoryPrice_p = 0;
+        }
+    }
+    if (newlong <_playerProfile.homeLongitude)
+    {
+        if (_playerProfile.homeLongitude - _playerProfile.purchaseDistanceLvl*20*_squareSize > newlong) {
+            *territoryPrice_p = 0;
+        }
+    }
+    else
+    {
+        if (_playerProfile.homeLongitude + _playerProfile.purchaseDistanceLvl*20*_squareSize < newlong) {
+            *territoryPrice_p = 0;
+        }
+    }
+}
+
 - (void) mapView: (GMSMapView *) mapView  didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
     
@@ -507,14 +556,30 @@
             _lastEmptyTerritory = nil;
         }
         
-        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :0 :1000 :0:0];
+        
+        
+        int territoryPrice = (pow(0.982, _playerProfile.purchasePriceLvl)) * 10 * [[[CLLocation alloc] initWithLatitude:newLat+_squareSize/2 longitude:newlong-_squareSize/2] distanceFromLocation:[[CLLocation alloc] initWithLatitude:_playerProfile.homeLatitude longitude:_playerProfile.homeLongitude]];
+        
+        [self checkDistanceFromHome:&territoryPrice newLat:newLat newlong:newlong];
+        
+        NSLog(@"%d", territoryPrice);
+        
+        
+        
+        Territory* newEmptyTerritory = [[Territory alloc]initWithCoords:newLat +_squareSize/2 :newlong -_squareSize/2:_squareSize :0 :0 :@"unknown" :0 :0 :territoryPrice :0:0];
         _lastEmptyTerritory = newEmptyTerritory;
         [territoryList addObject:newEmptyTerritory];
         
         bool buyable = [self checkBuyable: coordinate];
         
         [self.hf setID:_identifier];
-        [self.hf setAttr:newEmptyTerritory: buyable];
+        if (territoryPrice == 0) {
+            [self.hf setAttr:newEmptyTerritory: !buyable];
+        }
+        else{
+           [self.hf setAttr:newEmptyTerritory: buyable];
+        }
+        
         [self.view addSubview:self.hf.view];
     }
 
@@ -662,8 +727,6 @@
         _moneyLabel.text = [NSString stringWithFormat:@"$%d",_playerProfile.money ];
         _revenueLabel.text = [NSString stringWithFormat:@"+ $%d",_playerProfile.revenue ];
         
-        
-        
 
     }
 
@@ -696,6 +759,20 @@
 -(NSString*)getIdentifier
 {
     return _identifier;
+}
+
+- (NSUInteger) supportedInterfaceOrientations {
+    // Return a bitmask of supported orientations. If you need more,
+    // use bitwise or (see the commented return).
+    return UIInterfaceOrientationMaskPortrait;
+    // return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
+}
+
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
+    // Return the orientation you'd prefer - this is what it launches to. The
+    // user can still rotate. You don't have to implement this method, in which
+    // case it launches in the current orientation
+    return UIDeviceOrientationPortrait;
 }
 
 @end

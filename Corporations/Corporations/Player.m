@@ -43,6 +43,12 @@
     
     NSLog(updateURL);
     
+    NSURLRequest *updateRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:updateURL]];
+    
+    [[NSURLConnection alloc] initWithRequest:updateRequest delegate:self];
+    
+    
+    
 }
 
 

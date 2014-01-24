@@ -56,12 +56,13 @@
 }
 
 - (IBAction)dropPurchasePriceButtonPressed:(id)sender {
-    int xpCost = 10;
+    int xpCost = _playerPointer.purchasePriceLvl * _playerPointer.purchasePriceLvl;
+    NSLog(@"%d", xpCost);
     
     
-     if(xpCost< [_experiencePointsLabel.text intValue])
+     if(xpCost<= [_experiencePointsLabel.text intValue])
      {
-         NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+         NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and will reduce buying costs by 1.8%%", xpCost];
          _alert1 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
          [_alert1 show];
      }
@@ -73,11 +74,11 @@
     
 }
 - (IBAction)increasePurchaseDistanceButtonPressed:(id)sender {
-    int xpCost = 10;
+    int xpCost = _playerPointer.purchaseDistanceLvl * _playerPointer.purchaseDistanceLvl;
     
-    if(xpCost< [_experiencePointsLabel.text intValue])
+    if(xpCost<= [_experiencePointsLabel.text intValue])
     {
-        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and you will be able to buy territories 20 square further", xpCost];
         _alert2 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [_alert2 show];
     }
@@ -89,12 +90,12 @@
 }
 - (IBAction)increaseMaxExperienceEarnedQteButtonPressed:(id)sender {
     
-    int xpCost = 10;
+    int xpCost = _playerPointer.experienceQteLvl * _playerPointer.experienceQteLvl;
     
     
-    if(xpCost< [_experiencePointsLabel.text intValue])
+    if(xpCost<= [_experiencePointsLabel.text intValue])
     {
-        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and will increase your experience limit by 25", xpCost];
         _alert3 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [_alert3 show];
     }
@@ -106,12 +107,12 @@
 }
 - (IBAction)increaseMaxMoneyEarnedButtonPressed:(id)sender {
     
-    int xpCost = 10;
+    int xpCost = _playerPointer.moneyLimitLvl * _playerPointer.moneyLimitLvl;
     
     
-    if(xpCost< [_experiencePointsLabel.text intValue])
+    if(xpCost<= [_experiencePointsLabel.text intValue])
     {
-        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and will increase your money limit by 10000", xpCost];
         _alert4 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [_alert4 show];
     }
@@ -124,12 +125,12 @@
 }
 - (IBAction)increaseXPQteFoundButtonPressed:(id)sender {
     
-    int xpCost = 10;
+    int xpCost = _playerPointer.experienceQteLvl * _playerPointer.experienceQteLvl;
     
     
-    if(xpCost< [_experiencePointsLabel.text intValue])
+    if(xpCost<= [_experiencePointsLabel.text intValue])
     {
-        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and will increase your earned experience by 2%%", xpCost];
         _alert5 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [_alert5 show];
     }
@@ -142,12 +143,12 @@
 }
 - (IBAction)dropAlliancePriceButtonPressed:(id)sender {
     
-    int xpCost = 10;
+    int xpCost = _playerPointer.alliancePriceLvl * _playerPointer.alliancePriceLvl;
     
     
-    if(xpCost< [_experiencePointsLabel.text intValue])
+    if(xpCost<= [_experiencePointsLabel.text intValue])
     {
-        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp", xpCost];
+        NSString* message = [NSString stringWithFormat:@"This action will cost you %dxp and alliances will cost you 1.5%% less", xpCost];
         _alert6 = [[UIAlertView alloc] initWithTitle:@"Are you sure?" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [_alert6 show];
     }

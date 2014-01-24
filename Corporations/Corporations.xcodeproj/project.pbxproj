@@ -14,7 +14,6 @@
 		174BE2B81850751500AD506C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174BE2B71850751500AD506C /* FacebookSDK.framework */; };
 		174EB31D188BD2C300816EAE /* trips_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 174EB31C188BD2C300816EAE /* trips_icon.png */; };
 		17610D9C188D32E5004164EB /* LeaderBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 17610D9B188D32E5004164EB /* LeaderBoard.m */; };
-		17610D9F188D5F90004164EB /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 17610D9E188D5F90004164EB /* test.m */; };
 		177E553E1862F22F00548BFD /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = 177E553D1862F22F00548BFD /* Territory.m */; };
 		17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B1672B186AF2E4004EF363 /* ProfileView.m */; };
 		17E0B4A0184F3499007D31CF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E0B49F184F3499007D31CF /* Foundation.framework */; };
@@ -70,8 +69,6 @@
 		174EB31C188BD2C300816EAE /* trips_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trips_icon.png; sourceTree = "<group>"; };
 		17610D9A188D32E5004164EB /* LeaderBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderBoard.h; sourceTree = "<group>"; };
 		17610D9B188D32E5004164EB /* LeaderBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderBoard.m; sourceTree = "<group>"; };
-		17610D9D188D5F90004164EB /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
-		17610D9E188D5F90004164EB /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
 		177E553C1862F22F00548BFD /* Territory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Territory.h; sourceTree = "<group>"; };
 		177E553D1862F22F00548BFD /* Territory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Territory.m; sourceTree = "<group>"; };
 		17B1672A186AF2E4004EF363 /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
@@ -220,8 +217,6 @@
 				17610D9B188D32E5004164EB /* LeaderBoard.m */,
 				17E0B4B7184F3499007D31CF /* Images.xcassets */,
 				17E0B4A6184F3499007D31CF /* Supporting Files */,
-				17610D9D188D5F90004164EB /* test.h */,
-				17610D9E188D5F90004164EB /* test.m */,
 			);
 			path = Corporations;
 			sourceTree = "<group>";
@@ -366,7 +361,6 @@
 			files = (
 				17E560FA1873110600240A85 /* Player.m in Sources */,
 				1742FF4C18587566000CAECB /* HalfViewController.m in Sources */,
-				17610D9F188D5F90004164EB /* test.m in Sources */,
 				17B1672C186AF2E4004EF363 /* ProfileView.m in Sources */,
 				17E0B4B6184F3499007D31CF /* ViewController.m in Sources */,
 				177E553E1862F22F00548BFD /* Territory.m in Sources */,
