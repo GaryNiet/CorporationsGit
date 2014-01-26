@@ -339,14 +339,7 @@
     
     
     
-    if(_purchasingPriceLabel == 0)
-    {
-        self.purchasingPriceLabel.text = @"not for sale";
-    }
-    else
-    {
-        self.purchasingPriceLabel.text = [NSString stringWithFormat:@"bought for: $ %d",_buyingPrice];
-    }
+
     
 //    if(_sellingPrice == 0)
 //    {
@@ -433,6 +426,7 @@
     
     if(!buyable)
     {
+        NSLog(@"passe par ici");
         self.buyButton.hidden = true;
         self.priceLabel.text = @"not for sale";
     }
@@ -522,7 +516,7 @@
                                                           otherButtonTitles:nil];
                     [alert show];
                     
-                    
+                    //_parentPointer
                 }
             }
         }

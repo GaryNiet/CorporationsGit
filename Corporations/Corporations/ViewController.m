@@ -324,9 +324,9 @@
          _currentLocation = mapView_.myLocation;
          
          
-         _timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
-         _updateCharacterTimer = [NSTimer scheduledTimerWithTimeInterval:180 target:self selector:@selector(getProfileFromServer) userInfo:nil repeats:YES];
-         _updateterritoryTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(getTerritoriesFromServer) userInfo:nil repeats:YES];
+         _timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(distanceManager) userInfo:nil repeats:YES];
+         _updateCharacterTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(getProfileFromServer) userInfo:nil repeats:YES];
+         _updateterritoryTimer = [NSTimer scheduledTimerWithTimeInterval:40 target:self selector:@selector(getTerritoriesFromServer) userInfo:nil repeats:YES];
 
          
          
@@ -459,6 +459,7 @@
         {
             if(territory.isAllied || [territory.ownerID isEqualToString:_userID])
             {
+                NSLog(@"this returned true");
                 return true;
             }
         }
@@ -583,13 +584,20 @@
         [territoryList addObject:newEmptyTerritory];
         
         bool buyable = [self checkBuyable: coordinate];
-        
         [self.hf setID:_identifier];
-        if (territoryPrice == 0) {
-            [self.hf setAttr:newEmptyTerritory: !buyable];
+        
+        
+        if (territoryPrice == 0 || buyable == false) {
+            [self.hf setAttr:newEmptyTerritory: false];
         }
-        else{
-           [self.hf setAttr:newEmptyTerritory: buyable];
+        else
+        {
+           [self.hf setAttr:newEmptyTerritory: true];
+        }
+        
+        if (_playerProfile.territoryCount == 0) {
+            
+            [self.hf setAttr:newEmptyTerritory: true];
         }
         
         [self.view addSubview:self.hf.view];
